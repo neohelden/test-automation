@@ -13,6 +13,7 @@ Dafür wird [Postman](https://neohelden.postman.co/) genutzt.
       - [2. Reply](#2-reply)
       - [3. Action](#3-action)
     - [Flow response testen](#flow-response-testen)
+      - [Neo testing Helfer](#neo-testing-helfer)
   - [Nützliche links 🔗](#nützliche-links-)
 
 ## Test auf Postman erstellen
@@ -26,8 +27,8 @@ Um einen neuen Test anlegen:
 
 ```json
 {
-    "username": "[USERNAME]",
-    "password": "[PASSWORD]"
+  "username": "[USERNAME]",
+  "password": "[PASSWORD]"
 }
 ```
 
@@ -52,10 +53,10 @@ const particle = await message('/commandAuslösen')
 
 #### 2. Reply
 
-> Mit `reply()` kann man mit replies 
+> Mit `reply()` kann man mit replies
 
 ```js
-const particle = await reply('Text der als reply kommen soll')
+const particle = await reply("Text der als reply kommen soll");
 ```
 
 #### 3. Action
@@ -71,6 +72,23 @@ const particle = await action('ButtonInAdaptiveCard')
 ### Flow response testen
 
 Für die Testcases kann man alle response Attribute des Particles nutzen. Diese kann man im [Particle Schema](https://cypher.neohelden.com/api/v1/docs/#/) nachlesen. Oder auch in den [docs](https://docs.neohelden.com/de/particle).
+
+Generell, kann man folgendermaßen jeder Eintrag im Particle Testen:
+
+```js
+pm.test("[TEST-BESCHREIBUNG]", () => {
+  pm.expect(particle.response[RESPONSE-PART]).to.contain(
+    "[ERWARTERTER-INHALT]"
+  );
+});
+```
+
+Siehe die [Postman Dokumentation](https://learning.postman.com/docs/writing-scripts/test-scripts/). Die Assertion basieren auf das [ChaiJS Framework](https://www.chaijs.com/api/bdd/).
+
+#### Neo testing Helfer
+
+Um das Testen der 
+
 ## Nützliche links 🔗
 
 - <https://docs.neohelden.com/neap-api-docs/ref>
