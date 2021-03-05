@@ -87,7 +87,13 @@ Siehe die [Postman Dokumentation](https://learning.postman.com/docs/writing-scri
 
 #### Neo testing Helfer
 
-Um das Testen der 
+Um das Testen der Particle Antwort so einfach wie möglich zu machen, gibt es Hilfsfunktionen. Diese kann man einfach aufrufen um den Antwort Particle auf Bspw. einer Adaptive Card zu testen. Man kann mehrere dieser Funktionen nutzen um die genauigkeit des Tests zu erhöhen.
+
+Hilfsfunktionen:
+
+```js
+DOING
+```
 
 ## Nützliche links 🔗
 
