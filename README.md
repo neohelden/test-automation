@@ -43,7 +43,7 @@ Es gibt 3 Möglichkeiten Anfragen zu machen:
 
 #### 1. Messages
 
-> Messages können genutzt werden um Bspw. Intents auszulösen, commands zu triggern,...
+> Messages können genutzt werden um Bspw. Intents auszulösen, commands zu triggern, auf reprompts zu antworten, ...
 
 ```js
 const particle = await message('Ein Intent auslösen')
@@ -61,7 +61,9 @@ const particle = await reply("Text der als reply kommen soll");
 
 #### 3. Action
 
-> Die Action kann Bspw. für den Handshake oder um mit Adaptive Cards zu interagieren genutzt werden
+<!-- TODO check this -->
+
+> Die Action kann Bspw. für den Handshake nutzen oder um mit Adaptive Cards zu interagieren.
 
 ```js
 const particle = await action('Handshake')
