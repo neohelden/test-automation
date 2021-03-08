@@ -148,7 +148,7 @@ containsSticky(particle, "plain", "ein text")
 
 #### Ausführliche Helfer Dokumentation 📖
 
-Um eine ausführliche Information über Parameter & co siehe die [Ausführliche Dokumentation]("./js-doc.md") 👨‍🎓
+Um eine ausführliche Information über Parameter & co siehe die [Ausführliche Dokumentation]("./../docs/js-doc.md") 👨‍🎓
 
 ## Nützliche links 🔗
 
