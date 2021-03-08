@@ -1,0 +1,23 @@
+{
+  "name": "flow-testing-manual",
+  "version": "1.0.0",
+  "description": "> Beschreibung und Vorlagen für das Flow testing mit Postman",
+  "main": "test-template.js",
+  "dependencies": {
+    "jsdoc-to-markdown": "^7.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "doc": "jsdoc2md test-template.js > ./docs/js-doc.md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neohelden/flow-testing-manual.git"
+  },
+  "author": "Daniel Vera Gilliard",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/neohelden/flow-testing-manual/issues"
+  },
+  "homepage": "https://github.com/neohelden/flow-testing-manual#readme"
+}
