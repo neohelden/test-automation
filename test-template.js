@@ -120,7 +120,7 @@ const isResponseOk = () => {
  * @param {String} [hintToCheck] for the re-prompt(Optional)
  * @param {String} [patternToCheck] of the re-prompt(Optional)
  */
-const isReprompt = (particle, typeToCheck = null, hintToCheck = null, patternToCheck = null) => {
+const isReprompt = (particle, {typeToCheck = null, hintToCheck = null, patternToCheck = null} = {}) => {
   const { type, hint, pattern } = particle.response.reprompt
   pm.test(`Check for re-prompt values.`, () => {
     if (typeToCheck) {
@@ -173,7 +173,7 @@ const showsDownload = (particle, url) => {
  * @param {String} [title] to expect in expandable(Optional)
  * @param {String} [html] to expect in expandable(Optional)
  */
-const showsExpandable = (particle, title = null, html = null) => {
+const showsExpandable = (particle, {title = null, html = null} = {}) => {
   isContentType(particle, 'expandable')
   if (title) simpleDataSearchTest(particle.response.content, title)
   if (html) simpleDataSearchTest(particle.response.content, html)
@@ -205,7 +205,7 @@ const showsImage = (particle, imageSource) => {
  * @param {String} [lat] to expect in map(Optional)
  * @param {String} [lng] to expect in map(Optional)
  */
-const showsMap = (particle, lat = null, lng = null) => {
+const showsMap = (particle, {lat = null, lng = null} = {}) => {
   isContentType(particle, 'map')
   if (lat) simpleDataSearchTest(particle.response.content, lat)
   if (lng) simpleDataSearchTest(particle.response.content, lng)
@@ -249,7 +249,7 @@ const triggersAudio = (particle, url) => {
  * @param {String} target expected to trigger camera
  * @param {String} mode expected to use for uploading
  */
-const triggersCamera = (particle, target = null, mode = null) => {
+const triggersCamera = (particle, {target = null, mode = null} = {}) => {
   isContentType(particle, 'camera')
   if (target) simpleDataSearchTest(particle.response.content, target)
   if (mode) simpleDataSearchTest(particle.response.content)
@@ -266,7 +266,7 @@ const triggersStickyClear = (particle, todo) => {
  * @param {String} [value] to expect(optional)
  * @param {String} [style] to expect. One of: default, good, warning, alert, highlight(Optional)
  */
-const triggersSuggestion = (particle, label = null, value = null, style = null) => {
+const triggersSuggestion = (particle, {label = null, value = null, style = null} = {}) => {
   const { suggestions } = particle.response
   pm.test(`Check for suggestion label`, () => {
     if (label) {
@@ -335,7 +335,7 @@ const doesCopyToClipboad = (particle, text) => {
  * @param {String} [subject] to expect in mail(optional)
  * @param {String} [body] to expect in mail(optional)
  */
-const doesComposeAnEmail = (particle, recipients = null, subject = null, body = null) => {
+const doesComposeAnEmail = (particle, {recipients = null, subject = null, body = null}) => {
   isDirective(particle, "email.compose")
 }
 
@@ -365,7 +365,7 @@ const doesOpenAnUrl = (particle, url) => {
  * @param {String} [typeToCheckFor] for the sticky: One of: upload, json, adaptivecard, plain, html, media, map, expandable, camera, image, download(Optional)
  * @param {Object} [dataToCheckFor] for the sticky(Optional)
  */
-const isSticky = (particle, typeToCheckFor = null, dataToCheckFor = null) => {
+const isSticky = (particle, {typeToCheckFor = null, dataToCheckFor = null} = {}) => {
   const { type, data } = particle.response.sticky
   pm.test(`Check for sticky values.`, () => {
     if (typeToCheckFor) {
