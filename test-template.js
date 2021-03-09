@@ -309,13 +309,63 @@ const isDirective = (particle, directiveType) => {
   })
 }
 
+
+/**
+ * Check for audio to be player 
+ * @param {Object} particle to check for
+ * @param {String} url to be expected to play
+ */
+const doesPlayAudio = (particle, url) => {
+  isDirective(particle, "audio.play")
+}
+
+/**
+ * Check for text copied to the clipboard
+ * @param {Object} particle to check for
+ * @param {String} text to expect in clipboard
+ */
+const doesCopyToClipboad = (particle, text) => {
+  isDirective(particle, "clipboard.copy")
+}
+
+/**
+ * Check for mail to be composed
+ * @param {Object} particle to check for
+ * @param {String} [recipients] to expect in mail(optional)
+ * @param {String} [subject] to expect in mail(optional)
+ * @param {String} [body] to expect in mail(optional)
+ */
+const doesComposeAnEmail = (particle, recipients = null, subject = null, body = null) => {
+  isDirective(particle, "email.compose")
+}
+
+/**
+ * Check for a number to be called
+ * @param {Object} particle to check for
+ * @param {String} number to expect as phone call
+ */
+const doesPhoneCall = (particle, number) => {
+  isDirective(particle, "phone.call")
+}
+
+/**
+ * Check for an url to be opened
+ * @param {Object} particle to check for
+ * @param {String} url to expect
+ */
+const doesOpenAnUrl = (particle, url) => {
+  isDirective(particle, "url.open")
+}
+
+// ------ STICKY ------
+
 /**
  * Check for particle to contain specific sticky attributes
  * @param {Object} particle to check for
  * @param {String} [typeToCheckFor] for the sticky: One of: upload, json, adaptivecard, plain, html, media, map, expandable, camera, image, download(Optional)
  * @param {Object} [dataToCheckFor] for the sticky(Optional)
  */
-const containsSticky = (particle, typeToCheckFor = null, dataToCheckFor = null) => {
+const isSticky = (particle, typeToCheckFor = null, dataToCheckFor = null) => {
   const { type, data } = particle.response.sticky
   pm.test(`Check for sticky values.`, () => {
     if (typeToCheckFor) {
