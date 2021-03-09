@@ -110,7 +110,30 @@ const isResponseOk = () => {
   })
 }
 
-// ------ NEO CONTENTS ------
+// ------ NEO REPROMPT ------
+
+/**
+ * Check for particle to contain specific re-prompt attributes
+ * @param {Object} particle to check for
+ * @param {String} [typeToCheck] of the re-prompt(Optional)
+ * @param {String} [typeToCheck] to expect. One of: text, number, email, tel, color, date, month, password, time, url, hidden(Optional)
+ * @param {String} [hintToCheck] for the re-prompt(Optional)
+ * @param {String} [patternToCheck] of the re-prompt(Optional)
+ */
+const isReprompt = (particle, typeToCheck = null, hintToCheck = null, patternToCheck = null) => {
+  const { type, hint, pattern } = particle.response.reprompt
+  pm.test(`Check for re-prompt values.`, () => {
+    if (typeToCheck) {
+      pm.expect(type).to.include(typeToCheck)
+    }
+    if (hintToCheck) {
+      pm.expect(hint).to.include(hintToCheck)
+    }
+    if (patternToCheck) {
+      pm.expect(pattern).to.include(patternToCheck)
+    }
+  })
+}
 
 /**
  * Check for an expected content type in array of contents
@@ -287,29 +310,6 @@ const isDirective = (particle, directiveType) => {
 }
 
 /**
- * Check for particle to contain specific re-prompt attributes
- * @param {Object} particle to check for
- * @param {String} [typeToCheck] of the re-prompt(Optional)
- * @param {String} [typeToCheck] to expect. One of: text, number, email, tel, color, date, month, password, time, url, hidden(Optional)
- * @param {String} [hintToCheck] for the re-prompt(Optional)
- * @param {String} [patternToCheck] of the re-prompt(Optional)
- */
-const containsReprompt = (particle, typeToCheck = null, hintToCheck = null, patternToCheck = null) => {
-  const { type, hint, pattern } = particle.response.reprompt
-  pm.test(`Check for re-prompt values.`, () => {
-    if (typeToCheck) {
-      pm.expect(type).to.include(typeToCheck)
-    }
-    if (hintToCheck) {
-      pm.expect(hint).to.include(hintToCheck)
-    }
-    if (patternToCheck) {
-      pm.expect(pattern).to.include(patternToCheck)
-    }
-  })
-}
-
-/**
  * Check for particle to contain specific sticky attributes
  * @param {Object} particle to check for
  * @param {String} [typeToCheckFor] for the sticky: One of: upload, json, adaptivecard, plain, html, media, map, expandable, camera, image, download(Optional)
@@ -326,6 +326,7 @@ const containsSticky = (particle, typeToCheckFor = null, dataToCheckFor = null) 
     }
   })
 }
+
 // ------ INTENTS ------
 
 /**
