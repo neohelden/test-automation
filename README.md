@@ -1,11 +1,11 @@
-# flow-testing-manual mit Postman 🧪
+# Flow testing mit Postman 🧪
 
 > Beschreibung und Vorlagen für das Flow testing mit Postman
 
 Mithilfe der [NEAP-API](https://docs.neohelden.com/neap-api-docs/ref), kann man tests auf den Flows ausführen.  
 Dafür wird [Postman](https://neohelden.postman.co/) 👨‍🚀 genutzt.
 
-- [flow-testing-manual mit Postman 🧪](#flow-testing-manual-mit-postman-)
+- [Flow testing mit Postman 🧪](#flow-testing-mit-postman-)
   - [Test auf Postman erstellen](#test-auf-postman-erstellen)
   - [Test cases erstellen](#test-cases-erstellen)
     - [Anfrage](#anfrage)
