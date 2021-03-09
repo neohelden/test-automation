@@ -8,13 +8,15 @@ Dafür wird [Postman](https://neohelden.postman.co/) 👨‍🚀 genutzt.
 - [flow-testing-manual mit Postman 🧪](#flow-testing-manual-mit-postman-)
   - [Test auf Postman erstellen](#test-auf-postman-erstellen)
   - [Test cases erstellen](#test-cases-erstellen)
-    - [Flow request machen](#flow-request-machen)
+    - [Anfrage](#anfrage)
       - [1. Messages](#1-messages)
       - [2. Reply](#2-reply)
       - [3. Action](#3-action)
     - [Particle response auswerten](#particle-response-auswerten)
       - [Neo testing Helfer](#neo-testing-helfer)
-      - [Ausführliche Helfer Dokumentation 📖](#ausführliche-helfer-dokumentation-)
+        - [Particle](#particle)
+        - [Optionale Parameter](#optionale-parameter)
+        - [Beispiele mit Hilfsfunktionen](#beispiele-mit-hilfsfunktionen)
   - [Nützliche links 🔗](#nützliche-links-)
   - [Contribute 😄 👨‍💻 👩‍💻](#contribute---)
 
@@ -41,29 +43,29 @@ Um einen neuen Test anlegen:
 
 Ein Test besteht aus 2 Bestandteile:
 
-1. Anfrage einer `request`
-2. Auswerten des ausgewerteten `particles`
+1. Anfrage(`request`)
+2. Auswerten der Antwort(=`particle`)
 
-### Flow request machen
+### Anfrage
 
 Es gibt 3 Möglichkeiten Anfragen zu machen:
 
 #### 1. Messages
 
-> Messages können genutzt werden um Bspw. Intents auszulösen, commands zu triggern, auf re-prompts zu antworten, ...
+> Messages können genutzt werden um Bspw. **Intents auszulösen, commands zu triggern, auf re-prompts zu antworten,...**
 
 ```js
 const particle = await message('Ein Intent auslösen')
-...
+// ...
 const particle = await message('/commandAuslösen')
 ```
 
 #### 2. Reply
 
-> Mit `reply()` kann man mit replies antworten
+> Mit `reply()` kann man auf replies antworten
 
 ```js
-const particle = await reply("Text der als reply kommen soll")
+const particle = await reply('Text der als reply kommen soll')
 ```
 
 #### 3. Action
@@ -72,7 +74,7 @@ const particle = await reply("Text der als reply kommen soll")
 
 ```js
 const particle = await action('Handshake')
-...
+// ...
 const particle = await action('ButtonInAdaptiveCard')
 ```
 
@@ -83,72 +85,91 @@ Um das erwartete Particle auszuwerten,kann man alle response Attribute des Parti
 Generell, kann man folgendermaßen jeden Eintrag im Particle Testen:
 
 ```js
-pm.test("[TEST-BESCHREIBUNG]", () => {
-  pm.expect(particle.response[RESPONSE_PART]).to.contain("[ERWARTERTER-INHALT]")
+pm.test('[TEST-BESCHREIBUNG]', () => {
+  pm.expect(particle.response[RESPONSE_PART]).to.contain('[ERWARTERTER-INHALT]')
 })
 ```
 
-Siehe die [Postman Dokumentation](https://learning.postman.com/docs/writing-scripts/test-scripts/). Die Assertion basieren auf das [ChaiJS Framework](https://www.chaijs.com/api/bdd/).
+Siehe die [Postman Dokumentation](https://learning.postman.com/docs/writing-scripts/test-scripts/). Die Assertions basieren auf das [ChaiJS Framework](https://www.chaijs.com/api/bdd/).
 
 #### Neo testing Helfer
 
 Um das Testen der Particle Antwort so einfach wie möglich zu machen, gibt es Hilfsfunktionen. Diese kann man einfach aufrufen um den Antwort Particle auf Bspw. einer Adaptive Card zu testen. Man kann mehrere dieser Funktionen nutzen um die genauigkeit des Tests zu erhöhen.
 
-Beispiele mit den Hilfsfunktionen:
+Eine Liste aller vorhandenen Methoden findet sich hier: [Ausführliche Dokumentation](./docs/js-doc.md) 👨‍🎓.  
+Im folgenden ein paar Anmerkungen und Beispiele wie man diese nutzen kann.
 
-- Der `particle` parameter ist immer eine Referenz auf den zurückgegebenen Particle des requests(Siehe oben Part _Flow request machen_)
+##### Particle
 
-1. Schauen ob Response im allgemeinen ok:
+Der `particle` parameter ist immer eine Referenz auf den zurückgegebenen Particle des requests(Siehe oben Part _Flow request machen_)
 
-```js
-isResponseOk()
-```
+##### Optionale Parameter
 
-2. Auf ein Content type testen:
+Bei Hilfsfunktionen, die mehr als einen Parameter haben wird außer dem Particle nur ein zusätzlicher gebraucht. Alle anderen sind optional.  
+Bspw. um einen Reprompt zu testen ist die Hilfsfunktion folgendermaßen definiert:
 
-```js
-isContentType(particle, "adaptivecard")
-```
+`isReprompt(particle, [typeToCheck], [typeToCheck], [hintToCheck], [patternToCheck])`
 
-3. Spezifische Daten im Content type testen(In dem Fall `PlainData`):
+Dabei wird **mindestens ein geklammerter Parameter** gebraucht. Um speziell bspw. nur auf einen Hint zu testen, würde man folgendes aufrufen:
 
 ```js
-containsContentData(particle, { text: "Ein text", speak: "Etwas gesprochen" })
+isReprompt(particle, { hintToCheck: 'ein Hint' })
 ```
 
-4. Eine Direktive testen:
+💡: Die Syntax für die Optionale Parameter basiert auf simulierte named Parameter in Javascript. Hier ein gute Quelle diesbezüglich: [Named Parameters in Javascript](https://exploringjs.com/impatient-js/ch_callables.html#named-parameters)
+
+##### Beispiele mit Hilfsfunktionen
+
+Im Folgenden jeweils ein Beispiel für die verschiedenen Möglichkeiten die Hilfsfunktionen zu nutzen:
+
+- Anmerkung: Das Particle entstammt aus einer Anfrage(Siehe _Anfrage_ Part ⏫).
+
+1. Auf **Reprompt** testen:
 
 ```js
-isDirective(particle, "clipboard.copy")
+isReprompt(particle, { hintToCheck: 'Ein Hint' })
 ```
 
-5. Bestimmte Daten einer Direktive testen(In dem Fall `UrlOpendata`):
+2. **Contents**: Auf Merkmal in Adaptive Card testen:
+
+> Contents haben ein `shows` Prefix
 
 ```js
-containsDirectiveData(particle, { url: "https://neohelden.com" })
+showsAdaptiveCard(particle, "Ein Text in einer Adaptive Card")
 ```
 
-6. Suggestions testen:
+3. **Controls**: Auf Audio url testen:
+
+> Controls haben ein `triggers` Prefix
 
 ```js
-containsSuggestion(particle, "Ein label", "Eine Suggestions", "good")
+triggersAudio(particle, "www.audio.de/mp3")
 ```
 
-7. Reprompt testen:
+4. **Directives**: Auf Email erstellen testen:
+
+> Directives haben ein `does` Prefix
 
 ```js
-containsReprompt(particle, "email", "Ein Hint der angezeigt wird", "email")
+doesComposeAnEmail(particle, {recipients: "daniel@neohelden.com", subject: "Flow test Docs"})
 ```
 
-8. Sticky testen:
+5. **Sticky** testen:
 
 ```js
-containsSticky(particle, "plain", "ein text")
+isSticky(particle, "Ein text in einer Sticky")
 ```
 
-#### Ausführliche Helfer Dokumentation 📖
+6. **Intent** confidence testen:
 
-Um eine ausführliche Information über Parameter & co siehe die [Ausführliche Dokumentation](./docs/js-doc.md) 👨‍🎓
+- **ANMERKUNG:** Dies ist die einzige Methode, bei dem die Regel bezüglich optionaler Parameter nicht gilt. Es müssen alle Parameter angegeben werden(Also `intent` und `confidenceThreshold`)
+
+```js
+// confidence für neo.hello muss mindestens 0.79 betragen
+isIntent(particle, "neo.hello", 0.79)
+```
+
+Hiebei sei nochmal auf die Liste aller vorhandenen Methoden verwiesen 😉 [Ausführliche Dokumentation](./docs/js-doc.md) ‍.
 
 ## Nützliche links 🔗
 
