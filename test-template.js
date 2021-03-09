@@ -147,13 +147,13 @@ const showsDownload = (particle, url) => {
 /**
  * Check for expandable content
  * @param {Object} particle to check for
- * @param {String} title to expect in expandable
- * @param {String} html to expect in expandable
+ * @param {String} [title] to expect in expandable(Optional)
+ * @param {String} [html] to expect in expandable(Optional)
  */
-const showsExpandable = (particle, title, html) => {
+const showsExpandable = (particle, title = null, html = null) => {
   isContentType(particle, 'expandable')
-  simpleDataSearchTest(particle.response.content, title)
-  simpleDataSearchTest(particle.response.content, html)
+  if (title) simpleDataSearchTest(particle.response.content, title)
+  if (html) simpleDataSearchTest(particle.response.content, html)
 }
 
 /**
@@ -179,13 +179,13 @@ const showsImage = (particle, imageSource) => {
 /**
  * Check expected map
  * @param {Object} particle to check for
- * @param {String} lat to expect in map
- * @param {String} lng to expect in map
+ * @param {String} [lat] to expect in map(Optional)
+ * @param {String} [lng] to expect in map(Optional)
  */
-const showsMap = (particle, lat, lng) => {
+const showsMap = (particle, lat = null, lng = null) => {
   isContentType(particle, 'map')
-  simpleDataSearchTest(particle.response.content, lat)
-  simpleDataSearchTest(particle.response.content, lng)
+  if (lat) simpleDataSearchTest(particle.response.content, lat)
+  if (lng) simpleDataSearchTest(particle.response.content, lng)
 }
 
 /**
@@ -210,6 +210,68 @@ const showsPlain = (particle, text) => {
 
 // ------ NEO CONTROLS ------
 
+/**
+ * Check for expected url to trigger audio from
+ * @param {Object} particle to check for
+ * @param {String} url to trigger the audio from
+ */
+const triggersAudio = (particle, url) => {
+  isDirective(particle, 'audio.play')
+  simpleDataSearchTest(particle.response.directives, url)
+}
+
+/**
+ * Check for camera triggering parameters
+ * @param {Object} particle to check for
+ * @param {String} target expected to trigger camera
+ * @param {String} mode expected to use for uploading
+ */
+const triggersCamera = (particle, target = null, mode = null) => {
+  isContentType(particle, 'camera')
+  if (target) simpleDataSearchTest(particle.response.content, target)
+  if (mode) simpleDataSearchTest(particle.response.content)
+}
+
+const triggersStickyClear = (particle, todo) => {
+  // TODO 'action' in request?
+}
+
+/**
+ * Check for suggestion to contain specific attributes
+ * @param {Object} particle to check
+ * @param {String} [label] to expect(optional)
+ * @param {String} [value] to expect(optional)
+ * @param {String} [style] to expect. One of: default, good, warning, alert, highlight(Optional)
+ */
+const triggersSuggestion = (particle, label = null, value = null, style = null) => {
+  const { suggestions } = particle.response
+  pm.test(`Check for suggestion label`, () => {
+    if (label) {
+      pm.expect(suggestions.map((suggestion) => suggestion['label'])).includes(label)
+    }
+  })
+  pm.test(`Check for suggestion value`, () => {
+    if (value) {
+      pm.expect(suggestions.map((suggestion) => suggestion['value'])).includes(value)
+    }
+  })
+  pm.test(`Check for suggestion style`, () => {
+    if (style) {
+      pm.expect(suggestions.map((suggestion) => suggestion['style'])).includes(style)
+    }
+  })
+}
+
+/**
+ * Check upload trigger
+ * @param {Object} particle to check for
+ * @param {String} target to expect when upload complete
+ */
+const triggersUpload = (particle, target) => {
+  isContentType(particle, 'upload')
+  simpleDataSearchTest(particle.response.content, target)
+}
+
 // ------ NEO DIRECTIVES ------
 
 /**
@@ -226,6 +288,7 @@ const isDirective = (particle, directiveType) => {
 
 /**
  * Check for directive to contain specific data
+ * TODO remove as general search provided
  * @param {Object} particle to check for
  * @param {Object} dataToCheck with key:values to check in the data response
  */
@@ -233,28 +296,6 @@ const containsDirectiveData = (particle, dataToCheck) => {
   const { directives } = particle.response
   pm.test(`Check directive data`, () => {
     pm.expect(directives.map((directive) => directive['data'])).includes(dataToCheck)
-  })
-}
-
-/**
- * Check for particle to contain specific suggestion attributes
- * @param {Object} particle to check
- * @param {String} [label] to expect(optional)
- * @param {String} [value] to expect(optional)
- * @param {String} [style] to expect. One of: default, good, warning, alert, highlight(Optional)
- */
-const containsSuggestion = (particle, label = null, value = null, style = null) => {
-  const { suggestions } = particle.response
-  pm.test(`Check for suggestion values.`, () => {
-    if (label) {
-      pm.expect(suggestions.map((suggestion) => suggestion['label'])).includes(label)
-    }
-    if (value) {
-      pm.expect(suggestions.map((suggestion) => suggestion['value'])).includes(value)
-    }
-    if (style) {
-      pm.expect(suggestions.map((suggestion) => suggestion['style'])).includes(style)
-    }
   })
 }
 
@@ -298,7 +339,6 @@ const containsSticky = (particle, typeToCheckFor = null, dataToCheckFor = null) 
     }
   })
 }
-
 // ------ INTENTS ------
 
 /**
@@ -338,18 +378,6 @@ const getKeys = (obj, val) => {
 }
 
 /**
- * Do a fuzzy search on the data attribute of the content or directive response part
- * @param {Object} obj with data attribute to search in: content or directive
- * @param {String} searchTerm to fuzzy search
- */
-const fuzzyDataSearchTest = (obj, searchTerm) => {
-  const data = obj.map((contentElem) => contentElem['data'])
-  pm.test(`Fuzzy search for ${searchTerm}`, () => {
-    pm.expect(getKeys(data, searchTerm)).not.be.empty
-  })
-}
-
-/**
  * Do a fuzzy object search on the data attribute of the content or directive response part
  * Supports nested objects with more complex structure
  * @param {Object} obj with data attribute to search in: content or directive
@@ -368,8 +396,9 @@ const fuzzyDataSearchTest = (obj, searchTerm) => {
  * @param {Object} dataToSearch to search in
  */
 const simpleDataSearchTest = (obj, dataToSearch) => {
+  const data = obj.map((contentElem) => contentElem['data'])
   pm.test(`Search ${dataToSearch} in given object`, () => {
-    pm.expect(obj.map((contentElem) => contentElem['data'])).includes(dataToSearch)
+    pm.expect(data.map((contentElem) => contentElem['data'])).includes(dataToSearch)
   })
 }
 
