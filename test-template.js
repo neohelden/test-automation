@@ -396,9 +396,8 @@ const fuzzyDataSearchTest = (obj, searchTerm) => {
  * @param {Object} dataToSearch to search in
  */
 const simpleDataSearchTest = (obj, dataToSearch) => {
-  const data = obj.map((contentElem) => contentElem['data'])
   pm.test(`Search ${dataToSearch} in given object`, () => {
-    pm.expect(data.map((contentElem) => contentElem['data'])).includes(dataToSearch)
+    pm.expect(obj.map((contentElem) => contentElem['data'])).includes(dataToSearch)
   })
 }
 
