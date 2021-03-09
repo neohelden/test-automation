@@ -149,6 +149,73 @@ const adaptiveCardContains = (particle, textToCheck) => {
   })
 }
 
+/**
+ * Check adaptive card for Content
+ * @param {Object} particle to check for
+ * @param {String} adaptiveCardContent to expect in card
+ */
+const showsAdaptiveCard = (particle, adaptiveCardContent) => {
+
+}
+
+/**
+ * Check download content type
+ * @param {Object} particle to check for
+ * @param {String} url to expect
+ */
+const showsDownload = (particle, url) => {
+
+}
+/**
+ * Check adaptive card for Content
+ * @param {Object} particle to check for
+ * @param {String} adaptiveCardContent to expect in card
+ */
+const showsExpandable = (particle, adaptiveCardContent) => {
+
+}
+/**
+ * Check adaptive card for Content
+ * @param {Object} particle to check for
+ * @param {String} adaptiveCardContent to expect in card
+ */
+const showsHtml = (particle, adaptiveCardContent) => {
+
+}
+/**
+ * Check adaptive card for Content
+ * @param {Object} particle to check for
+ * @param {String} adaptiveCardContent to expect in card
+ */
+const showsImage = (particle, adaptiveCardContent) => {
+
+}
+/**
+ * Check adaptive card for Content
+ * @param {Object} particle to check for
+ * @param {String} adaptiveCardContent to expect in card
+ */
+const showsMap = (particle, adaptiveCardContent) => {
+
+}
+/**
+ * Check adaptive card for Content
+ * @param {Object} particle to check for
+ * @param {String} mediaUrl to expect in card
+ */
+const showsMedia = (particle, mediaUrl) => {
+
+}
+/**
+ * Check Plain node for expected text
+ * @param {Object} particle to check for
+ * @param {String} text to expect
+ */
+const showsPlain = (particle, text) => {
+
+}
+
+
 // ------ NEO CONTROLS ------
 
 // ------ NEO DIRECTIVES ------
