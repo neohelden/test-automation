@@ -1,21 +1,23 @@
 const token = pm.response.json().token
-const locale = "de-DE"
+const locale = 'de-DE'
 let replyId = null
 
 // TODO 1. INSERT WORKSPACE NAME HERE
-const workspace = "[WORKSPACE_NAME]"
+const workspace = '[WORKSPACE_NAME]'
 
 async function main() {
   let particle
 
   // TODO 2. ADD TEST CASES HERE
 
-  return "Done"
+  return 'Done'
 }
 
 //!---------------------------------------!
 //WARNING: DO NOT EDIT THE CODE CODE BELOW
 //!---------------------------------------!
+
+// ------ FLOW COMPONENTS ------
 
 /**
  * Sends a message: Useful f.ex for text messages, commands(Beginning with /), re-prompts,...
@@ -24,7 +26,7 @@ async function main() {
  */
 const message = async (msg) => {
   return sendRequest({
-    type: "message",
+    type: 'message',
     message: msg,
     locale: locale,
   })
@@ -37,10 +39,10 @@ const message = async (msg) => {
  */
 const reply = async (msg) => {
   return sendRequest({
-    type: "reply",
+    type: 'reply',
     message: msg,
     locale: locale,
-    replyId: replyId ? replyId : "",
+    replyId: replyId ? replyId : '',
   })
 }
 
@@ -52,9 +54,9 @@ const reply = async (msg) => {
  */
 const action = async (action, data) => {
   return sendRequest({
-    type: "action",
+    type: 'action',
     action: action,
-    data: data ? data : "",
+    data: data ? data : '',
     locale: locale,
   })
 }
@@ -65,25 +67,25 @@ const action = async (action, data) => {
  * @returns {JSON} response
  */
 const sendRequest = async (payload) => {
-  console.log("INFO Payload for request:", payload)
+  console.log('INFO Payload for request:', payload)
   replyId = null
   return new Promise((resolve, reject) => {
     pm.sendRequest(
       {
-        method: "POST",
+        method: 'POST',
         url: `https://${workspace}.neohelden.com/api/v1/particle`,
         header: {
           Authorization: token,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: {
-          mode: "raw",
+          mode: 'raw',
           raw: JSON.stringify(payload),
         },
       },
       (err, response) => {
         if (err) {
-          console.error("ERROR making the API request:", err)
+          console.error('ERROR making the API request:', err)
           reject(err)
         }
 
@@ -91,7 +93,7 @@ const sendRequest = async (payload) => {
         if (rspJson.response.replyId) {
           replyId = rspJson.response.replyId
         }
-        console.log("INFO JSON response:", rspJson)
+        console.log('INFO JSON response:', rspJson)
         resolve(rspJson)
       }
     )
@@ -102,11 +104,13 @@ const sendRequest = async (payload) => {
  * Check that the response is ok
  */
 const isResponseOk = () => {
-  pm.test("Response should be okay to process", function () {
+  pm.test('Response should be okay to process', function () {
     pm.response.to.not.be.error
     pm.response.to.have.status(200)
   })
 }
+
+// ------ NEO CONTENTS ------
 
 /**
  * Check for an expected content type in array of contents
@@ -116,7 +120,7 @@ const isResponseOk = () => {
 const isContentType = (particle, contentType) => {
   const { content } = particle.response
   pm.test(`Check for content type ${contentType}`, () => {
-    pm.expect(content.map((contentElem) => contentElem["type"])).includes(contentType)
+    pm.expect(content.map((contentElem) => contentElem['type'])).includes(contentType)
   })
 }
 
@@ -128,7 +132,7 @@ const isContentType = (particle, contentType) => {
 const containsContentData = (particle, dataToCheck) => {
   const { content } = particle.response
   pm.test(`Check content type data`, () => {
-    pm.expect(content.map((contentElem) => contentElem["data"])).includes(dataToCheck)
+    pm.expect(content.map((contentElem) => contentElem['data'])).includes(dataToCheck)
   })
 }
 
@@ -139,30 +143,15 @@ const containsContentData = (particle, dataToCheck) => {
  */
 const adaptiveCardContains = (particle, textToCheck) => {
   const { content } = particle.response
-  const data = content.map((contentElem) => contentElem["data"])
+  const data = content.map((contentElem) => contentElem['data'])
   pm.test(`Check adaptive card has value ${textToCheck}`, () => {
     pm.expect(getKeys(data, textToCheck)).not.be.empty
   })
 }
 
-/**
- * Search value in nested object
- * @param {Object} obj to search values in
- * @param {String} val to search
- * @returns {Array} of keys that match certain value
- */
-const getKeys = (obj, val) => {
-  var objects = []
-  for (var prop in obj) {
-    if (!obj.hasOwnProperty(prop)) continue // Check for edge cases
-    if (typeof obj[prop] == "object") {
-      objects = objects.concat(getKeys(obj[prop], val)) // Recursive call
-    } else if (obj[prop] == val) {
-      objects.push(prop)
-    }
-  }
-  return objects
-}
+// ------ NEO CONTROLS ------
+
+// ------ NEO DIRECTIVES ------
 
 /**
  * Check for directive
@@ -172,7 +161,7 @@ const getKeys = (obj, val) => {
 const isDirective = (particle, directiveType) => {
   const { directives } = particle.response
   pm.test(`Check for directive ${directiveType}`, () => {
-    pm.expect(directives.map((directive) => directive["type"])).includes(directiveType)
+    pm.expect(directives.map((directive) => directive['type'])).includes(directiveType)
   })
 }
 
@@ -184,7 +173,7 @@ const isDirective = (particle, directiveType) => {
 const containsDirectiveData = (particle, dataToCheck) => {
   const { directives } = particle.response
   pm.test(`Check directive data`, () => {
-    pm.expect(directives.map((directive) => directive["data"])).includes(dataToCheck)
+    pm.expect(directives.map((directive) => directive['data'])).includes(dataToCheck)
   })
 }
 
@@ -199,13 +188,13 @@ const containsSuggestion = (particle, label = null, value = null, style = null) 
   const { suggestions } = particle.response
   pm.test(`Check for suggestion values.`, () => {
     if (label) {
-      pm.expect(suggestions.map((suggestion) => suggestion["label"])).includes(label)
+      pm.expect(suggestions.map((suggestion) => suggestion['label'])).includes(label)
     }
     if (value) {
-      pm.expect(suggestions.map((suggestion) => suggestion["value"])).includes(value)
+      pm.expect(suggestions.map((suggestion) => suggestion['value'])).includes(value)
     }
     if (style) {
-      pm.expect(suggestions.map((suggestion) => suggestion["style"])).includes(style)
+      pm.expect(suggestions.map((suggestion) => suggestion['style'])).includes(style)
     }
   })
 }
@@ -251,9 +240,47 @@ const containsSticky = (particle, typeToCheckFor = null, dataToCheckFor = null) 
   })
 }
 
+// ------ INTENTS ------
+
+/**
+ * Check the expected Intent to have a minimal confidence
+ * @param {Object} particle to check for
+ * @param {String} intent to expect
+ * @param {int} confidenceThreshold to at least have
+ */
+const isIntent = (particle, intent, confidenceThreshold) => {
+  const { name, confidence } = particle.request.intent
+
+  pm.test(`Check for expected intent: ${intent} with confidence: ${confidenceThreshold}`, () => {
+    pm.expect(name).to.eql(intent)
+    pm.expect(confidence).to.be.at.least(confidenceThreshold, 'Confidence too low')
+  })
+}
+
+// ------ HELPERS ------
+
+/**
+ * Search value in nested object
+ * @param {Object} obj to search values in
+ * @param {String} val to search
+ * @returns {Array} of keys that match certain value
+ */
+const getKeys = (obj, val) => {
+  var objects = []
+  for (var prop in obj) {
+    if (!obj.hasOwnProperty(prop)) continue // Check for edge cases
+    if (typeof obj[prop] == 'object') {
+      objects = objects.concat(getKeys(obj[prop], val)) // Recursive call
+    } else if (obj[prop] == val) {
+      objects.push(prop)
+    }
+  }
+  return objects
+}
+
 // Do not remove the lines down below; required for async tests
 const interval = setTimeout(() => {}, 50000)
 main().then(() => {
-  console.log("Completely done! 🚀")
+  console.log('Completely done! 🚀')
   clearTimeout(interval)
 })
