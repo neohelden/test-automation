@@ -186,3 +186,4 @@ Hiebei sei nochmal auf die Liste aller vorhandenen Methoden verwiesen 😉 [Ausf
 
 1. Generate JSDoc: `npm run doc`
 2. Pls. test changes in Postman :-D
+3. Open PR & assign me(@daniel@neohelden.com or someone else to review)
