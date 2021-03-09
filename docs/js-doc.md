@@ -153,13 +153,13 @@ Check for particle to contain specific re-prompt attributes
 
 **Kind**: global function  
 
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| particle | <code>Object</code> |  | to check for |
-| [typeToCheck] | <code>String</code> | <code></code> | of the re-prompt(Optional) |
-| [typeToCheck] | <code>String</code> |  | to expect. One of: text, number, email, tel, color, date, month, password, time, url, hidden(Optional) |
-| [hintToCheck] | <code>String</code> |  | for the re-prompt(Optional) |
-| [patternToCheck] | <code>String</code> |  | of the re-prompt(Optional) |
+| Param | Type | Description |
+| --- | --- | --- |
+| particle | <code>Object</code> | to check for |
+| [typeToCheck] | <code>String</code> | of the re-prompt(Optional) |
+| [typeToCheck] | <code>String</code> | to expect. One of: text, number, email, tel, color, date, month, password, time, url, hidden(Optional) |
+| [hintToCheck] | <code>String</code> | for the re-prompt(Optional) |
+| [patternToCheck] | <code>String</code> | of the re-prompt(Optional) |
 
 <a name="isContentType"></a>
 
@@ -204,11 +204,11 @@ Check for expandable content
 
 **Kind**: global function  
 
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| particle | <code>Object</code> |  | to check for |
-| [title] | <code>String</code> | <code></code> | to expect in expandable(Optional) |
-| [html] | <code>String</code> | <code></code> | to expect in expandable(Optional) |
+| Param | Type | Description |
+| --- | --- | --- |
+| particle | <code>Object</code> | to check for |
+| [title] | <code>String</code> | to expect in expandable(Optional) |
+| [html] | <code>String</code> | to expect in expandable(Optional) |
 
 <a name="showsHtml"></a>
 
@@ -241,11 +241,11 @@ Check expected map
 
 **Kind**: global function  
 
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| particle | <code>Object</code> |  | to check for |
-| [lat] | <code>String</code> | <code></code> | to expect in map(Optional) |
-| [lng] | <code>String</code> | <code></code> | to expect in map(Optional) |
+| Param | Type | Description |
+| --- | --- | --- |
+| particle | <code>Object</code> | to check for |
+| [lat] | <code>String</code> | to expect in map(Optional) |
+| [lng] | <code>String</code> | to expect in map(Optional) |
 
 <a name="showsMedia"></a>
 
@@ -290,11 +290,11 @@ Check for camera triggering parameters
 
 **Kind**: global function  
 
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| particle | <code>Object</code> |  | to check for |
-| target | <code>String</code> | <code></code> | expected to trigger camera |
-| mode | <code>String</code> | <code></code> | expected to use for uploading |
+| Param | Type | Description |
+| --- | --- | --- |
+| particle | <code>Object</code> | to check for |
+| target | <code>String</code> | expected to trigger camera |
+| mode | <code>String</code> | expected to use for uploading |
 
 <a name="triggersSuggestion"></a>
 
@@ -303,12 +303,12 @@ Check for suggestion to contain specific attributes
 
 **Kind**: global function  
 
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| particle | <code>Object</code> |  | to check |
-| [label] | <code>String</code> | <code></code> | to expect(optional) |
-| [value] | <code>String</code> | <code></code> | to expect(optional) |
-| [style] | <code>String</code> | <code></code> | to expect. One of: default, good, warning, alert, highlight(Optional) |
+| Param | Type | Description |
+| --- | --- | --- |
+| particle | <code>Object</code> | to check |
+| [label] | <code>String</code> | to expect(optional) |
+| [value] | <code>String</code> | to expect(optional) |
+| [style] | <code>String</code> | to expect. One of: default, good, warning, alert, highlight(Optional) |
 
 <a name="triggersUpload"></a>
 
@@ -365,12 +365,12 @@ Check for mail to be composed
 
 **Kind**: global function  
 
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| particle | <code>Object</code> |  | to check for |
-| [recipients] | <code>String</code> | <code></code> | to expect in mail(optional) |
-| [subject] | <code>String</code> | <code></code> | to expect in mail(optional) |
-| [body] | <code>String</code> | <code></code> | to expect in mail(optional) |
+| Param | Type | Description |
+| --- | --- | --- |
+| particle | <code>Object</code> | to check for |
+| [recipients] | <code>String</code> | to expect in mail(optional) |
+| [subject] | <code>String</code> | to expect in mail(optional) |
+| [body] | <code>String</code> | to expect in mail(optional) |
 
 <a name="doesPhoneCall"></a>
 
@@ -403,11 +403,11 @@ Check for particle to contain specific sticky attributes
 
 **Kind**: global function  
 
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| particle | <code>Object</code> |  | to check for |
-| [typeToCheckFor] | <code>String</code> | <code></code> | for the sticky: One of: upload, json, adaptivecard, plain, html, media, map, expandable, camera, image, download(Optional) |
-| [dataToCheckFor] | <code>Object</code> | <code></code> | for the sticky(Optional) |
+| Param | Type | Description |
+| --- | --- | --- |
+| particle | <code>Object</code> | to check for |
+| [typeToCheckFor] | <code>String</code> | for the sticky: One of: upload, json, adaptivecard, plain, html, media, map, expandable, camera, image, download(Optional) |
+| [dataToCheckFor] | <code>Object</code> | for the sticky(Optional) |
 
 <a name="isIntent"></a>
 
