@@ -21,6 +21,12 @@
 <dt><a href="#containsContentData">containsContentData(particle, dataToCheck)</a></dt>
 <dd><p>Check for particle content to contain specific data</p>
 </dd>
+<dt><a href="#adaptiveCardContains">adaptiveCardContains(particle, textToCheck)</a></dt>
+<dd><p>Check for a Text to be in an adaptive card</p>
+</dd>
+<dt><a href="#getKeys">getKeys(obj, val)</a> ⇒ <code>Array</code></dt>
+<dd><p>Search value in nested object</p>
+</dd>
 <dt><a href="#isDirective">isDirective(particle, directiveType)</a></dt>
 <dd><p>Check for directive</p>
 </dd>
@@ -30,7 +36,7 @@
 <dt><a href="#containsSuggestion">containsSuggestion(particle, [label], [value], [style])</a></dt>
 <dd><p>Check for particle to contain specific suggestion attributes</p>
 </dd>
-<dt><a href="#containsReprompt">containsReprompt(particle, [typeToCheck], [hintToCheck], [patternToCheck])</a></dt>
+<dt><a href="#containsReprompt">containsReprompt(particle, [typeToCheck], [typeToCheck], [hintToCheck], [patternToCheck])</a></dt>
 <dd><p>Check for particle to contain specific re-prompt attributes</p>
 </dd>
 <dt><a href="#containsSticky">containsSticky(particle, [typeToCheckFor], [dataToCheckFor])</a></dt>
@@ -115,6 +121,31 @@ Check for particle content to contain specific data
 | particle | <code>Object</code> | to check for |
 | dataToCheck | <code>Object</code> | with key:values to check in the data response |
 
+<a name="adaptiveCardContains"></a>
+
+## adaptiveCardContains(particle, textToCheck)
+Check for a Text to be in an adaptive card
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| particle | <code>Object</code> | to check for |
+| textToCheck | <code>String</code> | in adaptive card |
+
+<a name="getKeys"></a>
+
+## getKeys(obj, val) ⇒ <code>Array</code>
+Search value in nested object
+
+**Kind**: global function  
+**Returns**: <code>Array</code> - of keys that match certain value  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| obj | <code>Object</code> | to search values in |
+| val | <code>String</code> | to search |
+
 <a name="isDirective"></a>
 
 ## isDirective(particle, directiveType)
@@ -155,7 +186,7 @@ Check for particle to contain specific suggestion attributes
 
 <a name="containsReprompt"></a>
 
-## containsReprompt(particle, [typeToCheck], [hintToCheck], [patternToCheck])
+## containsReprompt(particle, [typeToCheck], [typeToCheck], [hintToCheck], [patternToCheck])
 Check for particle to contain specific re-prompt attributes
 
 **Kind**: global function  
@@ -164,8 +195,9 @@ Check for particle to contain specific re-prompt attributes
 | --- | --- | --- | --- |
 | particle | <code>Object</code> |  | to check for |
 | [typeToCheck] | <code>String</code> | <code></code> | of the re-prompt(Optional) |
-| [hintToCheck] | <code>String</code> | <code></code> | for the re-prompt(Optional) |
-| [patternToCheck] | <code>String</code> | <code></code> | to expect. One of: text, number, email, tel, color, date, month, password, time, url, hidden(Optional) |
+| [typeToCheck] | <code>String</code> |  | to expect. One of: text, number, email, tel, color, date, month, password, time, url, hidden(Optional) |
+| [hintToCheck] | <code>String</code> |  | for the re-prompt(Optional) |
+| [patternToCheck] | <code>String</code> |  | of the re-prompt(Optional) |
 
 <a name="containsSticky"></a>
 

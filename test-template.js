@@ -116,7 +116,7 @@ const isResponseOk = () => {
 const isContentType = (particle, contentType) => {
   const { content } = particle.response
   pm.test(`Check for content type ${contentType}`, () => {
-    expect(content.map((contentElem) => contentElem["type"])).includes(contentType)
+    pm.expect(content.map((contentElem) => contentElem["type"])).includes(contentType)
   })
 }
 
@@ -128,8 +128,40 @@ const isContentType = (particle, contentType) => {
 const containsContentData = (particle, dataToCheck) => {
   const { content } = particle.response
   pm.test(`Check content type data`, () => {
-    expect(content.map((contentElem) => contentElem["data"])).includes(dataToCheck)
+    pm.expect(content.map((contentElem) => contentElem["data"])).includes(dataToCheck)
   })
+}
+
+/**
+ * Check for a Text to be in an adaptive card
+ * @param {Object} particle to check for
+ * @param {String} textToCheck in adaptive card
+ */
+const adaptiveCardContains = (particle, textToCheck) => {
+  const { content } = particle.response.content
+  const data = content.map((contentElem) => contentElem["data"])
+  pm.test('Check adaptive card has value', () => {
+    pm.expect(getKeys(data, textToCheck).not.be.empty)
+  })
+}
+
+/**
+ * Search value in nested object
+ * @param {Object} obj to search values in
+ * @param {String} val to search
+ * @returns {Array} of keys that match certain value
+ */
+const getKeys = (obj, val) => {
+    var objects = [];
+    for (var prop in obj) {
+        if (!obj.hasOwnProperty(prop)) continue; // Check for edge cases
+        if (typeof obj[prop] == 'object') {
+            objects = objects.concat(getKeys(obj[prop], val)); // Recursive call
+        } else if (obj[prop] == val) {
+            objects.push(prop);
+        }
+    }
+    return objects;
 }
 
 /**
@@ -140,7 +172,7 @@ const containsContentData = (particle, dataToCheck) => {
 const isDirective = (particle, directiveType) => {
   const { directives } = particle.response
   pm.test(`Check for directive ${directiveType}`, () => {
-    expect(directives.map((directive) => directive["type"])).includes(directiveType)
+    pm.expect(directives.map((directive) => directive["type"])).includes(directiveType)
   })
 }
 
@@ -152,7 +184,7 @@ const isDirective = (particle, directiveType) => {
 const containsDirectiveData = (particle, dataToCheck) => {
   const { directives } = particle.response
   pm.test(`Check directive data`, () => {
-    expect(directives.map((directive) => directive["data"])).includes(dataToCheck)
+    pm.expect(directives.map((directive) => directive["data"])).includes(dataToCheck)
   })
 }
 
@@ -167,13 +199,13 @@ const containsSuggestion = (particle, label = null, value = null, style = null) 
   const { suggestions } = particle.response
   pm.test(`Check for suggestion values.`, () => {
     if (label) {
-      expect(suggestions.map((suggestion) => suggestion["label"])).includes(label)
+      pm.expect(suggestions.map((suggestion) => suggestion["label"])).includes(label)
     }
     if (value) {
-      expect(suggestions.map((suggestion) => suggestion["value"])).includes(value)
+      pm.expect(suggestions.map((suggestion) => suggestion["value"])).includes(value)
     }
     if (style) {
-      expect(suggestions.map((suggestion) => suggestion["style"])).includes(style)
+      pm.expect(suggestions.map((suggestion) => suggestion["style"])).includes(style)
     }
   })
 }
@@ -190,13 +222,13 @@ const containsReprompt = (particle, typeToCheck = null, hintToCheck = null, patt
   const { type, hint, pattern } = particle.response.reprompt
   pm.test(`Check for re-prompt values.`, () => {
     if (typeToCheck) {
-      expect(type).to.include(typeToCheck)
+      pm.expect(type).to.include(typeToCheck)
     }
     if (hintToCheck) {
-      expect(hint).to.include(hintToCheck)
+      pm.expect(hint).to.include(hintToCheck)
     }
     if (patternToCheck) {
-      expect(pattern).to.include(patternToCheck)
+      pm.expect(pattern).to.include(patternToCheck)
     }
   })
 }
@@ -211,10 +243,10 @@ const containsSticky = (particle, typeToCheckFor = null, dataToCheckFor = null) 
   const { type, data } = particle.response.sticky
   pm.test(`Check for sticky values.`, () => {
     if (typeToCheckFor) {
-      expect(type).to.include(typeToCheckFor)
+      pm.expect(type).to.include(typeToCheckFor)
     }
     if (dataToCheckFor) {
-      expect(data).to.include(dataToCheckFor)
+      pm.expect(data).to.include(dataToCheckFor)
     }
   })
 }
