@@ -6,9 +6,13 @@
   "dependencies": {
     "jsdoc-to-markdown": "^7.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "husky": "^5.1.3"
+  },
   "scripts": {
-    "doc": "jsdoc2md test-template.js > ./docs/js-doc.md"
+    "doc": "jsdoc2md test-template.js > ./docs/js-doc.md",
+    "markdownLint": "",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
