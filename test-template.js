@@ -125,71 +125,88 @@ const isContentType = (particle, contentType) => {
 }
 
 /**
- * Check for particle content to contain specific data
- * @param {Object} particle to check for
- * @param {Object} dataToCheck with key:values to check in the data response
- */
-const containsContentData = (particle, dataToCheck) => {
-  const { content } = particle.response
-  pm.test(`Check content type data`, () => {
-    pm.expect(content.map((contentElem) => contentElem['data'])).includes(dataToCheck)
-  })
-}
-
-/**
  * Check adaptive card for Content
  * @param {Object} particle to check for
  * @param {String} adaptiveCardContent to expect in card
  */
 const showsAdaptiveCard = (particle, adaptiveCardContent) => {
-  isContentType(particle, "adaptivecard")
-  const { content } = particle.response
-  const data = content.map((contentElem) => contentElem['data'])
-  fuzzySearchTest(data, adaptiveCardContent)
+  isContentType(particle, 'adaptivecard')
+  fuzzyDataSearchTest(particle.response.content, adaptiveCardContent)
 }
 
 /**
  * Check download content type
  * @param {Object} particle to check for
- * @param {String} url to expect
+ * @param {String} url to expect for download
  */
-const showsDownload = (particle, url) => {}
+const showsDownload = (particle, url) => {
+  isContentType(particle, 'download')
+  fuzzyDataSearchTest(particle.response.content, url)
+}
+
 /**
- * Check adaptive card for Content
+ * Check for expandable content
  * @param {Object} particle to check for
- * @param {String} adaptiveCardContent to expect in card
+ * @param {String} title to expect in expandable
+ * @param {String} html to expect in expandable
  */
-const showsExpandable = (particle, adaptiveCardContent) => {}
+const showsExpandable = (particle, title, html) => {
+  isContentType(particle, 'expandable')
+  simpleDataSearchTest(particle.response.content, title)
+  simpleDataSearchTest(particle.response.content, html)
+}
+
 /**
- * Check adaptive card for Content
+ * Check for expected html
  * @param {Object} particle to check for
- * @param {String} adaptiveCardContent to expect in card
+ * @param {String} html to expect
  */
-const showsHtml = (particle, adaptiveCardContent) => {}
+const showsHtml = (particle, html) => {
+  isContentType(particle, 'html')
+  simpleDataSearchTest(particle.response.content, html)
+}
+
 /**
- * Check adaptive card for Content
+ * Check expected image
  * @param {Object} particle to check for
- * @param {String} adaptiveCardContent to expect in card
+ * @param {String} imageSource or url to expect for image
  */
-const showsImage = (particle, adaptiveCardContent) => {}
+const showsImage = (particle, imageSource) => {
+  isContentType(particle, 'image')
+  simpleDataSearchTest(particle.response.content, imageSource)
+}
+
 /**
- * Check adaptive card for Content
+ * Check expected map
  * @param {Object} particle to check for
- * @param {String} adaptiveCardContent to expect in card
+ * @param {String} lat to expect in map
+ * @param {String} lng to expect in map
  */
-const showsMap = (particle, adaptiveCardContent) => {}
+const showsMap = (particle, lat, lng) => {
+  isContentType(particle, 'map')
+  simpleDataSearchTest(particle.response.content, lat)
+  simpleDataSearchTest(particle.response.content, lng)
+}
+
 /**
- * Check adaptive card for Content
+ * Check expected media
  * @param {Object} particle to check for
  * @param {String} mediaUrl to expect in card
  */
-const showsMedia = (particle, mediaUrl) => {}
+const showsMedia = (particle, mediaUrl) => {
+  isContentType(particle, 'media')
+  simpleDataSearchTest(particle.response.content, mediaUrl)
+}
+
 /**
  * Check Plain node for expected text
  * @param {Object} particle to check for
  * @param {String} text to expect
  */
-const showsPlain = (particle, text) => {}
+const showsPlain = (particle, text) => {
+  isContentType(particle, plain)
+  simpleDataSearchTest(particle.response.content, text)
+}
 
 // ------ NEO CONTROLS ------
 
@@ -321,16 +338,40 @@ const getKeys = (obj, val) => {
 }
 
 /**
- * Do a fuzzy search in an object
- * @param {Object} obj to search in
+ * Do a fuzzy search on the data attribute of the content or directive response part
+ * @param {Object} obj with data attribute to search in: content or directive
  * @param {String} searchTerm to fuzzy search
  */
-const fuzzySearchTest = (obj, searchTerm) => {
+const fuzzyDataSearchTest = (obj, searchTerm) => {
+  const data = obj.map((contentElem) => contentElem['data'])
   pm.test(`Fuzzy search for ${searchTerm}`, () => {
     pm.expect(getKeys(data, searchTerm)).not.be.empty
   })
 }
 
+/**
+ * Do a fuzzy object search on the data attribute of the content or directive response part
+ * Supports nested objects with more complex structure
+ * @param {Object} obj with data attribute to search in: content or directive
+ * @param {String} searchTerm to fuzzy search
+ */
+const fuzzyDataSearchTest = (obj, searchTerm) => {
+  const data = obj.map((contentElem) => contentElem['data'])
+  pm.test(`Fuzzy search for ${searchTerm}`, () => {
+    pm.expect(getKeys(data, searchTerm)).not.be.empty
+  })
+}
+
+/**
+ * Check for data in simple, not further nested object attributes
+ * @param {Object} obj to search in
+ * @param {Object} dataToSearch to search in
+ */
+const simpleDataSearchTest = (obj, dataToSearch) => {
+  pm.test(`Search ${dataToSearch} in given object`, () => {
+    pm.expect(obj.map((contentElem) => contentElem['data'])).includes(dataToSearch)
+  })
+}
 
 // Do not remove the lines down below; required for async tests
 const interval = setTimeout(() => {}, 50000)
