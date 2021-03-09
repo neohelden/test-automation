@@ -287,19 +287,6 @@ const isDirective = (particle, directiveType) => {
 }
 
 /**
- * Check for directive to contain specific data
- * TODO remove as general search provided
- * @param {Object} particle to check for
- * @param {Object} dataToCheck with key:values to check in the data response
- */
-const containsDirectiveData = (particle, dataToCheck) => {
-  const { directives } = particle.response
-  pm.test(`Check directive data`, () => {
-    pm.expect(directives.map((directive) => directive['data'])).includes(dataToCheck)
-  })
-}
-
-/**
  * Check for particle to contain specific re-prompt attributes
  * @param {Object} particle to check for
  * @param {String} [typeToCheck] of the re-prompt(Optional)
