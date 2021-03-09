@@ -137,25 +137,15 @@ const containsContentData = (particle, dataToCheck) => {
 }
 
 /**
- * Check for a Text to be in an adaptive card
- * @param {Object} particle to check for
- * @param {String} textToCheck in adaptive card
- */
-const adaptiveCardContains = (particle, textToCheck) => {
-  const { content } = particle.response
-  const data = content.map((contentElem) => contentElem['data'])
-  pm.test(`Check adaptive card has value ${textToCheck}`, () => {
-    pm.expect(getKeys(data, textToCheck)).not.be.empty
-  })
-}
-
-/**
  * Check adaptive card for Content
  * @param {Object} particle to check for
  * @param {String} adaptiveCardContent to expect in card
  */
 const showsAdaptiveCard = (particle, adaptiveCardContent) => {
-
+  isContentType(particle, "adaptivecard")
+  const { content } = particle.response
+  const data = content.map((contentElem) => contentElem['data'])
+  fuzzySearchTest(data, adaptiveCardContent)
 }
 
 /**
@@ -163,58 +153,43 @@ const showsAdaptiveCard = (particle, adaptiveCardContent) => {
  * @param {Object} particle to check for
  * @param {String} url to expect
  */
-const showsDownload = (particle, url) => {
-
-}
+const showsDownload = (particle, url) => {}
 /**
  * Check adaptive card for Content
  * @param {Object} particle to check for
  * @param {String} adaptiveCardContent to expect in card
  */
-const showsExpandable = (particle, adaptiveCardContent) => {
-
-}
+const showsExpandable = (particle, adaptiveCardContent) => {}
 /**
  * Check adaptive card for Content
  * @param {Object} particle to check for
  * @param {String} adaptiveCardContent to expect in card
  */
-const showsHtml = (particle, adaptiveCardContent) => {
-
-}
+const showsHtml = (particle, adaptiveCardContent) => {}
 /**
  * Check adaptive card for Content
  * @param {Object} particle to check for
  * @param {String} adaptiveCardContent to expect in card
  */
-const showsImage = (particle, adaptiveCardContent) => {
-
-}
+const showsImage = (particle, adaptiveCardContent) => {}
 /**
  * Check adaptive card for Content
  * @param {Object} particle to check for
  * @param {String} adaptiveCardContent to expect in card
  */
-const showsMap = (particle, adaptiveCardContent) => {
-
-}
+const showsMap = (particle, adaptiveCardContent) => {}
 /**
  * Check adaptive card for Content
  * @param {Object} particle to check for
  * @param {String} mediaUrl to expect in card
  */
-const showsMedia = (particle, mediaUrl) => {
-
-}
+const showsMedia = (particle, mediaUrl) => {}
 /**
  * Check Plain node for expected text
  * @param {Object} particle to check for
  * @param {String} text to expect
  */
-const showsPlain = (particle, text) => {
-
-}
-
+const showsPlain = (particle, text) => {}
 
 // ------ NEO CONTROLS ------
 
@@ -344,6 +319,18 @@ const getKeys = (obj, val) => {
   }
   return objects
 }
+
+/**
+ * Do a fuzzy search in an object
+ * @param {Object} obj to search in
+ * @param {String} searchTerm to fuzzy search
+ */
+const fuzzySearchTest = (obj, searchTerm) => {
+  pm.test(`Fuzzy search for ${searchTerm}`, () => {
+    pm.expect(getKeys(data, searchTerm)).not.be.empty
+  })
+}
+
 
 // Do not remove the lines down below; required for async tests
 const interval = setTimeout(() => {}, 50000)
