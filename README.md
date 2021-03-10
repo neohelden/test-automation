@@ -19,7 +19,7 @@ Dafür wird [Postman](https://neohelden.postman.co/) 👨‍🚀 genutzt.
         - [Beispiele mit Hilfsfunktionen](#beispiele-mit-hilfsfunktionen)
       - [Spezielle Tests schreiben](#spezielle-tests-schreiben)
   - [Nützliche links 🔗](#nützliche-links-)
-  - [Contribute 😄 👨‍💻 👩‍💻](#contribute---)
+  - [Contribute 😄 👨‍💻 👩‍💻 & Dev notes](#contribute-----dev-notes)
 
 ## Test auf Postman erstellen
 
@@ -208,8 +208,23 @@ Siehe die [Postman Dokumentation](https://learning.postman.com/docs/writing-scri
 3. Postman<https://learning.postman.com/docs/writing-scripts/test-scripts/>
 4. ChaiJS: <https://www.chaijs.com/api/bdd/>
 
-## Contribute 😄 👨‍💻 👩‍💻
+## Contribute 😄 👨‍💻 👩‍💻 & Dev notes
 
-1. Generate JSDoc: `npm run doc`
-2. Pls. test changes in Postman :-D
-3. Open PR & assign me(@daniel@neohelden.com or someone else to review)
+1. JSDoc generieren: `npm run doc`
+2. Pls. changes in Postman testen :-D
+3. PR aufmachen & mir(@daniel@neohelden.com) oder jemand anderes assignen
+
+Folder Structure:
+
+```txt
+flow-testing-manual
+├── README.md
+├── docs
+│   └── js-doc.md -> JSDoc
+├── lib
+│   ├── full-test-template.js -> All functions together with the tests to use without function dependency
+│   └── neo-test-functions.js -> Neo test helper functions
+├── package-lock.json
+├── package.json
+└── test-template.js -> Test template used in Postman with function dependencies
+```
