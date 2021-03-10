@@ -86,7 +86,7 @@ Um das erwartete Particle auszuwerten, kann man alle response Attribute des Part
 
 Um das Testen der Particle Antwort so einfach wie möglich zu machen, gibt es Hilfsfunktionen. Diese kann man einfach aufrufen um den Antwort Particle auf Bspw. einer Adaptive Card zu testen. Man kann mehrere dieser Funktionen nutzen um die genauigkeit des Tests zu erhöhen.
 
-Eine Liste aller vorhandenen Methoden findet sich hier: [Ausführliche Dokumentation](./docs/js-doc.md) 👨‍🎓.  
+Eine Liste aller vorhandenen Funktionen findet sich hier: [Ausführliche Dokumentation](./docs/js-doc.md) 👨‍🎓.  
 Die Kurzversion, kann man auch beim Importieren ganz oben in der Template Datei sehen:
 
 ```js
@@ -182,7 +182,7 @@ isIntent(particle, 'neo.hello', 0.79)
 
 ---
 
-Hiebei sei nochmal auf die Liste aller vorhandenen Methoden verwiesen die auf JSDoc basiert 😉: [Ausführliche Dokumentation](./docs/js-doc.md) ‍.
+Hiebei sei nochmal auf die Liste aller vorhandenen Funktionen verwiesen die auf JSDoc basiert 😉: [Ausführliche Dokumentation](./docs/js-doc.md) ‍.
 
 #### Spezielle Tests schreiben
 
