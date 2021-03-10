@@ -17,6 +17,7 @@ Dafür wird [Postman](https://neohelden.postman.co/) 👨‍🚀 genutzt.
         - [Particle](#particle)
         - [Optionale Parameter](#optionale-parameter)
         - [Beispiele mit Hilfsfunktionen](#beispiele-mit-hilfsfunktionen)
+      - [Spezielle Tests schreiben](#spezielle-tests-schreiben)
   - [Nützliche links 🔗](#nützliche-links-)
   - [Contribute 😄 👨‍💻 👩‍💻](#contribute---)
 
@@ -24,9 +25,9 @@ Dafür wird [Postman](https://neohelden.postman.co/) 👨‍🚀 genutzt.
 
 Um einen neuen Test anlegen:
 
-1. In der `NEAP-Testing` collection eine neue Request erstellen: `New -> Request`
-2. Hier `POST` als HTTP Methode auswählen
-3. Ziel-URL ergänzen: `https://[WORSPACE].neohelden.com/auth`
+1. In der `Templates` collection den `[PROECT-NAME]` Template duplizieren.
+2. In die `NEAP Testing` collections verschieben
+3. `[PROECT-NAME]`, Ziel URL `https://[WORSPACE].neohelden.com/auth` abändern
 4. Wenn es kein `anonymous` workspace ist, müssen die Anmeldedaten hinzugefügt werden. Dafür im Workspace ein neuen App-User erstellen und in Postman unter dem `Body` tab:
 
 ```json
@@ -36,15 +37,14 @@ Um einen neuen Test anlegen:
 }
 ```
 
-5. Unter `Tests` den Inhalt der [Testvorlage](./test-template.js)(In `test-template.js` Datei).
-6. Werte in Vorlage abändern und Tests hinzufügen
+5. Unter `Tests` in der Testvorlage die `TODO`'s ergänzen
 
 ## Test cases erstellen
 
 Ein Test besteht aus 2 Bestandteile:
 
 1. Anfrage(`request`)
-2. Auswerten der Antwort(=`particle`)
+2. Auswerten der Antwort bzw. des `particle`
 
 ### Anfrage
 
@@ -52,7 +52,7 @@ Es gibt 3 Möglichkeiten Anfragen zu machen:
 
 #### 1. Messages
 
-> Messages können genutzt werden um Bspw. **Intents auszulösen, commands zu triggern, auf re-prompts zu antworten,...**
+> Messages können genutzt werden um Bspw. **Intents auszulösen, commands zu triggern,...**
 
 ```js
 const particle = await message('Ein Intent auslösen')
@@ -62,7 +62,7 @@ const particle = await message('/commandAuslösen')
 
 #### 2. Reply
 
-> Mit `reply()` kann man auf replies antworten
+> Mit `reply()` kann man auf replies antworten. Hier wird die `replyId` berücksichtigt.
 
 ```js
 const particle = await reply('Text der als reply kommen soll')
@@ -80,23 +80,30 @@ const particle = await action('ButtonInAdaptiveCard')
 
 ### Particle response auswerten
 
-Um das erwartete Particle auszuwerten,kann man alle response Attribute des Particles nutzen. Diese kann man im [Particle Schema](https://cypher.neohelden.com/api/v1/docs/#/) nachlesen. Oder auch in den [docs](https://docs.neohelden.com/de/particle).
-
-Generell, kann man folgendermaßen jeden Eintrag im Particle Testen:
-
-```js
-pm.test('[TEST-BESCHREIBUNG]', () => {
-  pm.expect(particle.response[RESPONSE_PART]).to.contain('[ERWARTERTER-INHALT]')
-})
-```
-
-Siehe die [Postman Dokumentation](https://learning.postman.com/docs/writing-scripts/test-scripts/). Die Assertions basieren auf das [ChaiJS Framework](https://www.chaijs.com/api/bdd/).
+Um das erwartete Particle auszuwerten, kann man alle response Attribute des Particles nutzen. Diese kann man im [Particle Schema](https://cypher.neohelden.com/api/v1/docs/#/) nachlesen. Oder auch in den [docs](https://docs.neohelden.com/de/particle).
 
 #### Neo testing Helfer
 
 Um das Testen der Particle Antwort so einfach wie möglich zu machen, gibt es Hilfsfunktionen. Diese kann man einfach aufrufen um den Antwort Particle auf Bspw. einer Adaptive Card zu testen. Man kann mehrere dieser Funktionen nutzen um die genauigkeit des Tests zu erhöhen.
 
 Eine Liste aller vorhandenen Methoden findet sich hier: [Ausführliche Dokumentation](./docs/js-doc.md) 👨‍🎓.  
+Die Kurzversion, kann man auch beim Importieren ganz oben in der Template Datei sehen:
+
+```js
+// Neo hilfsfunktionen:
+// TIPP: Man kann diese links am editor "einklappen" :)
+const {
+  message,
+  reply,
+  action,
+  sendRequest,
+  isResponseOk,
+  isReprompt,
+  isContentType,
+  showsAdaptiveCard,
+  //... -> Siehe Postman Template Import
+```
+
 Im folgenden ein paar Anmerkungen und Beispiele wie man diese nutzen kann.
 
 ##### Particle
@@ -105,10 +112,12 @@ Der `particle` parameter ist immer eine Referenz auf den zurückgegebenen Partic
 
 ##### Optionale Parameter
 
-Bei Hilfsfunktionen, die mehr als einen Parameter haben wird außer dem Particle nur ein zusätzlicher gebraucht. Alle anderen sind optional.  
+Bei Hilfsfunktionen, die mehr als einen Parameter haben wird außer dem Particle nur ein zusätzlicher Parameter gebraucht. Alle anderen sind optional.  
 Bspw. um einen Reprompt zu testen ist die Hilfsfunktion folgendermaßen definiert:
 
-`isReprompt(particle, [typeToCheck], [typeToCheck], [hintToCheck], [patternToCheck])`
+```js
+const isReprompt = (particle, { typeToCheck = null, hintToCheck = null, patternToCheck = null } = {}) => { //...
+```
 
 Dabei wird **mindestens ein geklammerter Parameter** gebraucht. Um speziell bspw. nur auf einen Hint zu testen, würde man folgendes aufrufen:
 
@@ -116,7 +125,7 @@ Dabei wird **mindestens ein geklammerter Parameter** gebraucht. Um speziell bspw
 isReprompt(particle, { hintToCheck: 'ein Hint' })
 ```
 
-💡: Die Syntax für die Optionale Parameter basiert auf simulierte named Parameter in Javascript. Hier ein gute Quelle diesbezüglich: [Named Parameters in Javascript](https://exploringjs.com/impatient-js/ch_callables.html#named-parameters)
+▶️💡: Die Syntax für die Optionale Parameter basiert auf simulierte named Parameter in Javascript. Hier ein gute Quelle diesbezüglich: [Named Parameters in Javascript](https://exploringjs.com/impatient-js/ch_callables.html#named-parameters)
 
 ##### Beispiele mit Hilfsfunktionen
 
@@ -135,9 +144,9 @@ isReprompt(particle, { hintToCheck: 'Ein Hint' })
 > Contents haben ein `shows` Prefix
 
 ```js
-showsAdaptiveCard(particle, "Ein Text in einer Adaptive Card")
+showsAdaptiveCard(particle, 'Ein Text in einer Adaptive Card')
 // ...
-showsPlainText(particle, "Ein text in einer plain node")
+showsPlainText(particle, 'Ein text in einer plain node')
 ```
 
 3. **Controls**: Auf Audio url testen:
@@ -145,7 +154,7 @@ showsPlainText(particle, "Ein text in einer plain node")
 > Controls haben ein `triggers` Prefix
 
 ```js
-triggersAudio(particle, "www.audio.de/mp3")
+triggersAudio(particle, 'www.audio.de/mp3')
 ```
 
 4. **Directives**: Auf Email erstellen testen:
@@ -153,13 +162,13 @@ triggersAudio(particle, "www.audio.de/mp3")
 > Directives haben ein `does` Prefix
 
 ```js
-doesComposeAnEmail(particle, {recipients: "daniel@neohelden.com", subject: "Flow test Docs"})
+doesComposeAnEmail(particle, { recipients: 'daniel@neohelden.com', subject: 'Flow test Docs' })
 ```
 
 5. **Sticky** testen:
 
 ```js
-isSticky(particle, "Ein text in einer Sticky")
+isSticky(particle, 'Ein text in einer Sticky')
 ```
 
 6. **Intent** confidence testen:
@@ -168,17 +177,33 @@ isSticky(particle, "Ein text in einer Sticky")
 
 ```js
 // confidence für neo.hello muss mindestens 0.79 betragen
-isIntent(particle, "neo.hello", 0.79)
+isIntent(particle, 'neo.hello', 0.79)
 ```
 
-Hiebei sei nochmal auf die Liste aller vorhandenen Methoden verwiesen 😉 [Ausführliche Dokumentation](./docs/js-doc.md) ‍.
+---
+
+Hiebei sei nochmal auf die Liste aller vorhandenen Methoden verwiesen die auf JSDoc basiert 😉: [Ausführliche Dokumentation](./docs/js-doc.md) ‍.
+
+#### Spezielle Tests schreiben
+
+Generell, kann man folgendermaßen jeden Eintrag im Particle Testen:
+
+```js
+pm.test('[TEST-BESCHREIBUNG]', () => {
+  pm.expect(particle.response[RESPONSE_PART]).to.contain('[ERWARTERTER-INHALT]')
+})
+```
+
+Siehe die [Postman Dokumentation](https://learning.postman.com/docs/writing-scripts/test-scripts/). Die Assertions basieren auf das [ChaiJS Framework](https://www.chaijs.com/api/bdd/).
 
 ## Nützliche links 🔗
 
 1. API:
-   - <https://docs.neohelden.com/neap-api-docs/ref>
-   - <https://docs.neohelden.com/de/neap-api-http>
-   - <https://docs.neohelden.com/de>
+
+- <https://docs.neohelden.com/neap-api-docs/ref>
+- <https://docs.neohelden.com/de/neap-api-http>
+- <https://docs.neohelden.com/de>
+
 2. Particle:
 
 - Swagger Dokumentation: <https://cypher.neohelden.com/api/v1/docs/#/>
