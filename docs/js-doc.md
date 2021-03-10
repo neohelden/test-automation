@@ -42,7 +42,7 @@
 <dt><a href="#showsMedia">showsMedia(particle, mediaUrl)</a></dt>
 <dd><p>Check expected media</p>
 </dd>
-<dt><a href="#showsPlain">showsPlain(particle, text)</a></dt>
+<dt><a href="#showsPlainText">showsPlainText(particle, text)</a></dt>
 <dd><p>Check Plain node for expected text</p>
 </dd>
 <dt><a href="#triggersAudio">triggersAudio(particle, url)</a></dt>
@@ -259,9 +259,9 @@ Check expected media
 | particle | <code>Object</code> | to check for |
 | mediaUrl | <code>String</code> | to expect in card |
 
-<a name="showsPlain"></a>
+<a name="showsPlainText"></a>
 
-## showsPlain(particle, text)
+## showsPlainText(particle, text)
 Check Plain node for expected text
 
 **Kind**: global function  
