@@ -136,6 +136,8 @@ isReprompt(particle, { hintToCheck: 'Ein Hint' })
 
 ```js
 showsAdaptiveCard(particle, "Ein Text in einer Adaptive Card")
+// ...
+showsPlainText(particle, "Ein text in einer plain node")
 ```
 
 3. **Controls**: Auf Audio url testen:

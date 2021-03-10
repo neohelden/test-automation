@@ -228,7 +228,7 @@ const showsMedia = (particle, mediaUrl) => {
  * @param {Object} particle to check for
  * @param {String} text to expect
  */
-const showsPlain = (particle, text) => {
+const showsPlainText = (particle, text) => {
   isContentType(particle, plain)
   simpleDataSearchTest(particle.response.content, text)
 }
