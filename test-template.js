@@ -416,8 +416,11 @@ const getKeys = (obj, val) => {
     if (!obj.hasOwnProperty(prop)) continue // Check for edge cases
     if (typeof obj[prop] == 'object') {
       objects = objects.concat(getKeys(obj[prop], val)) // Recursive call
-    } else if (obj[prop] == val) {
-      objects.push(prop)
+    } else if (typeof obj[prop] === 'string' || typeof obj[prop] === 'number') {
+      let searchAsRegEx = new RegExp(val, "gi");
+      if (obj[prop].match(searchAsRegEx)) { // Fuzzy search
+        objects.push(prop)
+      }
     }
   }
   return objects
