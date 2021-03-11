@@ -31,8 +31,7 @@ const {
   isSticky,
   isIntent,
   getKeys,
-  fuzzyDataSearchTest,
-  simpleDataSearchTest,
+  fuzzyDataSearchTest
 } = eval(environment.neoTestingTools)()
 
 // TODO 0. OPTIONAL: LOCALE ÄNDERN
