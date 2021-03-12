@@ -21,7 +21,7 @@ getTestingFunctions()
       showsImage,
       showsMap,
       showsMedia,
-      showsPlainText,
+      showsText,
       triggersAudio,
       triggersCamera,
       triggersSuggestion,
