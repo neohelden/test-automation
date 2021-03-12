@@ -15,7 +15,7 @@
 <dt><a href="#isResponseOk">isResponseOk()</a></dt>
 <dd><p>Check that the response is ok</p>
 </dd>
-<dt><a href="#isReprompt">isReprompt(particle, [typeToCheck], [typeToCheck], [hintToCheck], [patternToCheck])</a></dt>
+<dt><a href="#isReprompt">isReprompt(particle, [typeToCheck], [hintToCheck], [patternToCheck])</a></dt>
 <dd><p>Check for particle to contain specific re-prompt attributes</p>
 </dd>
 <dt><a href="#isContentType">isContentType(particle, contentType)</a></dt>
@@ -148,7 +148,7 @@ Check that the response is ok
 **Kind**: global function  
 <a name="isReprompt"></a>
 
-## isReprompt(particle, [typeToCheck], [typeToCheck], [hintToCheck], [patternToCheck])
+## isReprompt(particle, [typeToCheck], [hintToCheck], [patternToCheck])
 Check for particle to contain specific re-prompt attributes
 
 **Kind**: global function  
@@ -156,7 +156,6 @@ Check for particle to contain specific re-prompt attributes
 | Param | Type | Description |
 | --- | --- | --- |
 | particle | <code>Object</code> | to check for |
-| [typeToCheck] | <code>String</code> | of the re-prompt(Optional) |
 | [typeToCheck] | <code>String</code> | to expect. One of: text, number, email, tel, color, date, month, password, time, url, hidden(Optional) |
 | [hintToCheck] | <code>String</code> | for the re-prompt(Optional) |
 | [patternToCheck] | <code>String</code> | of the re-prompt(Optional) |
