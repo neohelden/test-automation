@@ -15,7 +15,7 @@
 <dt><a href="#isResponseOk">isResponseOk()</a></dt>
 <dd><p>Check that the response is ok</p>
 </dd>
-<dt><a href="#isReprompt">isReprompt(particle, [typeToCheck], [hintToCheck], [patternToCheck])</a></dt>
+<dt><a href="#isReprompt">isReprompt(particle, [typeToCheck], [typeToCheck], [hintToCheck], [patternToCheck])</a></dt>
 <dd><p>Check for particle to contain specific re-prompt attributes</p>
 </dd>
 <dt><a href="#isContentType">isContentType(particle, contentType)</a></dt>
@@ -88,9 +88,6 @@
 <dd><p>Do a fuzzy object search on the data attribute of the content or directive response part
 Supports nested objects with more complex structure</p>
 </dd>
-<dt><a href="#simpleDataSearchTest">simpleDataSearchTest(obj, dataToSearch)</a></dt>
-<dd><p>Check for data in simple, not further nested object attributes</p>
-</dd>
 </dl>
 
 <a name="sendMessage"></a>
@@ -148,7 +145,7 @@ Check that the response is ok
 **Kind**: global function  
 <a name="isReprompt"></a>
 
-## isReprompt(particle, [typeToCheck], [hintToCheck], [patternToCheck])
+## isReprompt(particle, [typeToCheck], [typeToCheck], [hintToCheck], [patternToCheck])
 Check for particle to contain specific re-prompt attributes
 
 **Kind**: global function  
@@ -156,6 +153,7 @@ Check for particle to contain specific re-prompt attributes
 | Param | Type | Description |
 | --- | --- | --- |
 | particle | <code>Object</code> | to check for |
+| [typeToCheck] | <code>String</code> | of the re-prompt(Optional) |
 | [typeToCheck] | <code>String</code> | to expect. One of: text, number, email, tel, color, date, month, password, time, url, hidden(Optional) |
 | [hintToCheck] | <code>String</code> | for the re-prompt(Optional) |
 | [patternToCheck] | <code>String</code> | of the re-prompt(Optional) |
@@ -446,16 +444,4 @@ Supports nested objects with more complex structure
 | --- | --- | --- |
 | obj | <code>Object</code> | with data attribute to search in: content or directive |
 | searchTerm | <code>String</code> | to fuzzy search |
-
-<a name="simpleDataSearchTest"></a>
-
-## simpleDataSearchTest(obj, dataToSearch)
-Check for data in simple, not further nested object attributes
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| obj | <code>Object</code> | to search in |
-| dataToSearch | <code>Object</code> | to search in |
 
