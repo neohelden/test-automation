@@ -73,7 +73,7 @@ const particle = await reply('Text der als reply kommen soll')
 > Die Action kann man Bspw. für den Handshake nutzen oder um mit Adaptive Cards zu interagieren.
 
 ```js
-const particle = await action('Handshake')
+const particle = await action('handshake')
 // ...
 const particle = await action('ButtonInAdaptiveCard')
 ```
