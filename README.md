@@ -55,17 +55,17 @@ Es gibt 3 Möglichkeiten Anfragen zu machen:
 > Messages können genutzt werden um Bspw. **Intents auszulösen, commands zu triggern,...**
 
 ```js
-const particle = await message('Ein Intent auslösen')
+const particle = await sendMessage('Ein Intent auslösen')
 // ...
-const particle = await message('/commandAuslösen')
+const particle = await sendMessage('/commandAuslösen')
 ```
 
 #### 2. Reply
 
-> Mit `reply()` kann man auf replies antworten. Hier wird die `replyId` berücksichtigt.
+> Mit `sendReply()` kann man auf replies antworten. Hier wird die `replyId` berücksichtigt.
 
 ```js
-const particle = await reply('Text der als reply kommen soll')
+const particle = await sendReply('Text der als reply kommen soll')
 ```
 
 #### 3. Action
@@ -73,9 +73,9 @@ const particle = await reply('Text der als reply kommen soll')
 > Die Action kann man Bspw. für den Handshake nutzen oder um mit Adaptive Cards zu interagieren.
 
 ```js
-const particle = await action('handshake')
+const particle = await sendAction('handshake')
 // ...
-const particle = await action('ButtonInAdaptiveCard')
+const particle = await sendAction('ButtonInAdaptiveCard')
 ```
 
 ### Particle response auswerten

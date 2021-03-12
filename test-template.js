@@ -7,9 +7,9 @@ getTestingFunctions()
     // Neo hilfsfunktionen:
     // TIPP: Man kann diese links am editor "einklappen" :)
     const {
-      message,
-      reply,
-      action,
+      sendMessage,
+      sendReply,
+      sendAction,
       sendRequest,
       isResponseOk,
       isReprompt,
