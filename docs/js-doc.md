@@ -21,58 +21,58 @@
 <dt><a href="#isContentType">isContentType(particle, contentType)</a></dt>
 <dd><p>Check for an expected content type in array of contents</p>
 </dd>
-<dt><a href="#showsAdaptiveCard">showsAdaptiveCard(particle, adaptiveCardContent)</a></dt>
+<dt><a href="#showsAdaptiveCard">showsAdaptiveCard(particle, adaptiveCardContent, [elementNumber])</a></dt>
 <dd><p>Check adaptive card for Content</p>
 </dd>
-<dt><a href="#showsDownload">showsDownload(particle, url)</a></dt>
+<dt><a href="#showsDownload">showsDownload(particle, url, [elementNumber])</a></dt>
 <dd><p>Check download content type</p>
 </dd>
-<dt><a href="#showsExpandable">showsExpandable(particle, [title], [html])</a></dt>
+<dt><a href="#showsExpandable">showsExpandable(particle, [title], [html], [elementNumber])</a></dt>
 <dd><p>Check for expandable content</p>
 </dd>
-<dt><a href="#showsHtml">showsHtml(particle, html)</a></dt>
+<dt><a href="#showsHtml">showsHtml(particle, html, [elementNumber])</a></dt>
 <dd><p>Check for expected html</p>
 </dd>
-<dt><a href="#showsImage">showsImage(particle, imageSource)</a></dt>
+<dt><a href="#showsImage">showsImage(particle, imageSource, [elementNumber])</a></dt>
 <dd><p>Check expected image</p>
 </dd>
-<dt><a href="#showsMap">showsMap(particle, [lat], [lng])</a></dt>
+<dt><a href="#showsMap">showsMap(particle, [lat], [lng], [elementNumber])</a></dt>
 <dd><p>Check expected map</p>
 </dd>
-<dt><a href="#showsMedia">showsMedia(particle, mediaUrl)</a></dt>
+<dt><a href="#showsMedia">showsMedia(particle, mediaUrl, [elementNumber])</a></dt>
 <dd><p>Check expected media</p>
 </dd>
-<dt><a href="#showsText">showsText(particle, text)</a></dt>
+<dt><a href="#showsText">showsText(particle, text, [elementNumber])</a></dt>
 <dd><p>Check Plain node for expected text</p>
 </dd>
-<dt><a href="#triggersAudio">triggersAudio(particle, url)</a></dt>
+<dt><a href="#triggersAudio">triggersAudio(particle, url, [elementNumber])</a></dt>
 <dd><p>Check for expected url to trigger audio from</p>
 </dd>
-<dt><a href="#triggersCamera">triggersCamera(particle, target, mode)</a></dt>
+<dt><a href="#triggersCamera">triggersCamera(particle, target, mode, [elementNumber])</a></dt>
 <dd><p>Check for camera triggering parameters</p>
 </dd>
 <dt><a href="#triggersSuggestion">triggersSuggestion(particle, [label], [value], [style])</a></dt>
 <dd><p>Check for suggestion to contain specific attributes</p>
 </dd>
-<dt><a href="#triggersUpload">triggersUpload(particle, target)</a></dt>
+<dt><a href="#triggersUpload">triggersUpload(particle, target, [elementNumber])</a></dt>
 <dd><p>Check upload trigger</p>
 </dd>
 <dt><a href="#isDirective">isDirective(particle, directiveType)</a></dt>
 <dd><p>Check for directive</p>
 </dd>
-<dt><a href="#doesPlayAudio">doesPlayAudio(particle, url)</a></dt>
+<dt><a href="#doesPlayAudio">doesPlayAudio(particle, url, [elementNumber])</a></dt>
 <dd><p>Check for audio to be player</p>
 </dd>
-<dt><a href="#doesCopyToClipboad">doesCopyToClipboad(particle, text)</a></dt>
+<dt><a href="#doesCopyToClipboad">doesCopyToClipboad(particle, text, [elementNumber])</a></dt>
 <dd><p>Check for text copied to the clipboard</p>
 </dd>
-<dt><a href="#doesComposeAnEmail">doesComposeAnEmail(particle, [recipients], [subject], [body])</a></dt>
+<dt><a href="#doesComposeAnEmail">doesComposeAnEmail(particle, [recipients], [subject], [body], [elementNumber])</a></dt>
 <dd><p>Check for mail to be composed</p>
 </dd>
-<dt><a href="#doesPhoneCall">doesPhoneCall(particle, number)</a></dt>
+<dt><a href="#doesPhoneCall">doesPhoneCall(particle, number, [elementNumber])</a></dt>
 <dd><p>Check for a number to be called</p>
 </dd>
-<dt><a href="#doesOpenAnUrl">doesOpenAnUrl(particle, url)</a></dt>
+<dt><a href="#doesOpenAnUrl">doesOpenAnUrl(particle, url, [elementNumber])</a></dt>
 <dd><p>Check for an url to be opened</p>
 </dd>
 <dt><a href="#isSticky">isSticky(particle, [typeToCheckFor], [dataToCheckFor])</a></dt>
@@ -87,6 +87,9 @@
 <dt><a href="#fuzzyDataSearchTest">fuzzyDataSearchTest(obj, searchTerm)</a></dt>
 <dd><p>Do a fuzzy object search on the data attribute of the content or directive response part
 Supports nested objects with more complex structure</p>
+</dd>
+<dt><a href="#adaptSearchRange">adaptSearchRange(particle, typeToAdapt, elementToSearch)</a> ⇒</dt>
+<dd><p>Adapt particle to search by removing all other elements</p>
 </dd>
 </dl>
 
@@ -172,7 +175,7 @@ Check for an expected content type in array of contents
 
 <a name="showsAdaptiveCard"></a>
 
-## showsAdaptiveCard(particle, adaptiveCardContent)
+## showsAdaptiveCard(particle, adaptiveCardContent, [elementNumber])
 Check adaptive card for Content
 
 **Kind**: global function  
@@ -181,10 +184,11 @@ Check adaptive card for Content
 | --- | --- | --- |
 | particle | <code>Object</code> | to check for |
 | adaptiveCardContent | <code>String</code> | to expect in card |
+| [elementNumber] | <code>Number</code> | nth Element to check(Optional) |
 
 <a name="showsDownload"></a>
 
-## showsDownload(particle, url)
+## showsDownload(particle, url, [elementNumber])
 Check download content type
 
 **Kind**: global function  
@@ -193,10 +197,11 @@ Check download content type
 | --- | --- | --- |
 | particle | <code>Object</code> | to check for |
 | url | <code>String</code> | to expect for download |
+| [elementNumber] | <code>Number</code> | nth Element to check(Optional) |
 
 <a name="showsExpandable"></a>
 
-## showsExpandable(particle, [title], [html])
+## showsExpandable(particle, [title], [html], [elementNumber])
 Check for expandable content
 
 **Kind**: global function  
@@ -206,10 +211,11 @@ Check for expandable content
 | particle | <code>Object</code> | to check for |
 | [title] | <code>String</code> | to expect in expandable(Optional) |
 | [html] | <code>String</code> | to expect in expandable(Optional) |
+| [elementNumber] | <code>Number</code> | nth Element to check(Optional) |
 
 <a name="showsHtml"></a>
 
-## showsHtml(particle, html)
+## showsHtml(particle, html, [elementNumber])
 Check for expected html
 
 **Kind**: global function  
@@ -218,10 +224,11 @@ Check for expected html
 | --- | --- | --- |
 | particle | <code>Object</code> | to check for |
 | html | <code>String</code> | to expect |
+| [elementNumber] | <code>Number</code> | nth Element to check(Optional) |
 
 <a name="showsImage"></a>
 
-## showsImage(particle, imageSource)
+## showsImage(particle, imageSource, [elementNumber])
 Check expected image
 
 **Kind**: global function  
@@ -230,10 +237,11 @@ Check expected image
 | --- | --- | --- |
 | particle | <code>Object</code> | to check for |
 | imageSource | <code>String</code> | or url to expect for image |
+| [elementNumber] | <code>Number</code> | nth Element to check(Optional) |
 
 <a name="showsMap"></a>
 
-## showsMap(particle, [lat], [lng])
+## showsMap(particle, [lat], [lng], [elementNumber])
 Check expected map
 
 **Kind**: global function  
@@ -243,10 +251,11 @@ Check expected map
 | particle | <code>Object</code> | to check for |
 | [lat] | <code>String</code> | to expect in map(Optional) |
 | [lng] | <code>String</code> | to expect in map(Optional) |
+| [elementNumber] | <code>Number</code> | nth Element to check(Optional) |
 
 <a name="showsMedia"></a>
 
-## showsMedia(particle, mediaUrl)
+## showsMedia(particle, mediaUrl, [elementNumber])
 Check expected media
 
 **Kind**: global function  
@@ -255,10 +264,11 @@ Check expected media
 | --- | --- | --- |
 | particle | <code>Object</code> | to check for |
 | mediaUrl | <code>String</code> | to expect in card |
+| [elementNumber] | <code>Number</code> | nth Element to check(Optional) |
 
 <a name="showsText"></a>
 
-## showsText(particle, text)
+## showsText(particle, text, [elementNumber])
 Check Plain node for expected text
 
 **Kind**: global function  
@@ -267,10 +277,11 @@ Check Plain node for expected text
 | --- | --- | --- |
 | particle | <code>Object</code> | to check for |
 | text | <code>String</code> | to expect |
+| [elementNumber] | <code>Number</code> | nth Element to check(Optional) |
 
 <a name="triggersAudio"></a>
 
-## triggersAudio(particle, url)
+## triggersAudio(particle, url, [elementNumber])
 Check for expected url to trigger audio from
 
 **Kind**: global function  
@@ -279,10 +290,11 @@ Check for expected url to trigger audio from
 | --- | --- | --- |
 | particle | <code>Object</code> | to check for |
 | url | <code>String</code> | to trigger the audio from |
+| [elementNumber] | <code>Number</code> | nth Element to check(Optional) |
 
 <a name="triggersCamera"></a>
 
-## triggersCamera(particle, target, mode)
+## triggersCamera(particle, target, mode, [elementNumber])
 Check for camera triggering parameters
 
 **Kind**: global function  
@@ -292,6 +304,7 @@ Check for camera triggering parameters
 | particle | <code>Object</code> | to check for |
 | target | <code>String</code> | expected to trigger camera |
 | mode | <code>String</code> | expected to use for uploading |
+| [elementNumber] | <code>Number</code> | nth Element to check(Optional) |
 
 <a name="triggersSuggestion"></a>
 
@@ -309,7 +322,7 @@ Check for suggestion to contain specific attributes
 
 <a name="triggersUpload"></a>
 
-## triggersUpload(particle, target)
+## triggersUpload(particle, target, [elementNumber])
 Check upload trigger
 
 **Kind**: global function  
@@ -318,6 +331,7 @@ Check upload trigger
 | --- | --- | --- |
 | particle | <code>Object</code> | to check for |
 | target | <code>String</code> | to expect when upload complete |
+| [elementNumber] | <code>Number</code> | nth Element to check(Optional) |
 
 <a name="isDirective"></a>
 
@@ -333,7 +347,7 @@ Check for directive
 
 <a name="doesPlayAudio"></a>
 
-## doesPlayAudio(particle, url)
+## doesPlayAudio(particle, url, [elementNumber])
 Check for audio to be player
 
 **Kind**: global function  
@@ -342,10 +356,11 @@ Check for audio to be player
 | --- | --- | --- |
 | particle | <code>Object</code> | to check for |
 | url | <code>String</code> | to be expected to play |
+| [elementNumber] | <code>Number</code> | nth Element to check(Optional) |
 
 <a name="doesCopyToClipboad"></a>
 
-## doesCopyToClipboad(particle, text)
+## doesCopyToClipboad(particle, text, [elementNumber])
 Check for text copied to the clipboard
 
 **Kind**: global function  
@@ -354,10 +369,11 @@ Check for text copied to the clipboard
 | --- | --- | --- |
 | particle | <code>Object</code> | to check for |
 | text | <code>String</code> | to expect in clipboard |
+| [elementNumber] | <code>Number</code> | nth Element to check(Optional) |
 
 <a name="doesComposeAnEmail"></a>
 
-## doesComposeAnEmail(particle, [recipients], [subject], [body])
+## doesComposeAnEmail(particle, [recipients], [subject], [body], [elementNumber])
 Check for mail to be composed
 
 **Kind**: global function  
@@ -368,10 +384,11 @@ Check for mail to be composed
 | [recipients] | <code>String</code> | to expect in mail(optional) |
 | [subject] | <code>String</code> | to expect in mail(optional) |
 | [body] | <code>String</code> | to expect in mail(optional) |
+| [elementNumber] | <code>Number</code> | nth Element to check(Optional) |
 
 <a name="doesPhoneCall"></a>
 
-## doesPhoneCall(particle, number)
+## doesPhoneCall(particle, number, [elementNumber])
 Check for a number to be called
 
 **Kind**: global function  
@@ -380,10 +397,11 @@ Check for a number to be called
 | --- | --- | --- |
 | particle | <code>Object</code> | to check for |
 | number | <code>String</code> | to expect as phone call |
+| [elementNumber] | <code>Number</code> | nth Element to check(Optional) |
 
 <a name="doesOpenAnUrl"></a>
 
-## doesOpenAnUrl(particle, url)
+## doesOpenAnUrl(particle, url, [elementNumber])
 Check for an url to be opened
 
 **Kind**: global function  
@@ -392,6 +410,7 @@ Check for an url to be opened
 | --- | --- | --- |
 | particle | <code>Object</code> | to check for |
 | url | <code>String</code> | to expect |
+| [elementNumber] | <code>Number</code> | nth Element to check(Optional) |
 
 <a name="isSticky"></a>
 
@@ -444,4 +463,18 @@ Supports nested objects with more complex structure
 | --- | --- | --- |
 | obj | <code>Object</code> | with data attribute to search in: content or directive |
 | searchTerm | <code>String</code> | to fuzzy search |
+
+<a name="adaptSearchRange"></a>
+
+## adaptSearchRange(particle, typeToAdapt, elementToSearch) ⇒
+Adapt particle to search by removing all other elements
+
+**Kind**: global function  
+**Returns**: adapted Particle  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| particle | <code>Object</code> | to adapt search to |
+| typeToAdapt | <code>String</code> | search query to |
+| elementToSearch | <code>String</code> | and adapt search for |
 
