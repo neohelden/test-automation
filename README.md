@@ -18,6 +18,9 @@ Dafür wird [Postman](https://neohelden.postman.co/) 👨‍🚀 genutzt.
         - [Optionale Parameter](#optionale-parameter)
         - [Beispiele mit Hilfsfunktionen](#beispiele-mit-hilfsfunktionen)
       - [Spezielle Tests schreiben](#spezielle-tests-schreiben)
+  - [Versionierung](#versionierung)
+    - [Von Postman auf Versionierte Version zugreifen](#von-postman-auf-versionierte-version-zugreifen)
+    - [Eigene Hilfsfunktionen hinzufügen](#eigene-hilfsfunktionen-hinzufügen)
   - [Nützliche links 🔗](#nützliche-links-)
   - [Contribute 😄 👨‍💻 👩‍💻 & Dev notes](#contribute-----dev-notes)
 
@@ -27,7 +30,7 @@ Um einen neuen Test anlegen:
 
 1. In der `Templates` collection den `[PROECT-NAME]` Template duplizieren.
 2. In die `NEAP Testing` collections verschieben
-3. `[PROECT-NAME]`, Ziel URL `https://[WORSPACE].neohelden.com/auth` abändern
+3. `[PROECT-NAME]` und Ziel URL `https://[WORSPACE].neohelden.com/auth` abändern
 4. Wenn es kein `anonymous` workspace ist, müssen die Anmeldedaten hinzugefügt werden. Dafür im Workspace ein neuen App-User erstellen und in Postman unter dem `Body` tab:
 
 ```json
@@ -38,6 +41,9 @@ Um einen neuen Test anlegen:
 ```
 
 5. Unter `Tests` in der Testvorlage die `TODO`'s ergänzen
+6. OPTIONAL: Falls abweichende Test Funktionen genutzt werden, den Github Link zu der Datei/Version im `Pre-Request`-Tab verändern:
+   - Siehe Pre-request code: [pre-request.js](./lib/pre-request.js)
+   - Siehe Abschnitt _Test Funktionen hinzufügen_
 
 ## Test cases erstellen
 
@@ -52,7 +58,12 @@ Es gibt 3 Möglichkeiten Anfragen zu machen:
 
 #### 1. Messages
 
-> Messages können genutzt werden um Bspw. **Intents auszulösen, commands zu triggern,...**
+> Messages können genutzt werden um Bspw
+
+1. Intents auszulösen
+2. Commands zu triggern
+3. Suggestions auszulösen
+4. ...
 
 ```js
 const particle = await sendMessage('Ein Intent auslösen')
@@ -93,9 +104,9 @@ Die Kurzversion, kann man auch beim Importieren ganz oben in der Template Datei 
 // Neo hilfsfunktionen:
 // TIPP: Man kann diese links am editor "einklappen" :)
 const {
-  message,
-  reply,
-  action,
+  sendMessage,
+  sendReply,
+  sendReply,
   sendRequest,
   isResponseOk,
   isReprompt,
@@ -112,7 +123,7 @@ Der `particle` parameter ist immer eine Referenz auf den zurückgegebenen Partic
 
 ##### Optionale Parameter
 
-Bei Hilfsfunktionen, die mehr als einen Parameter haben wird außer dem Particle nur ein zusätzlicher Parameter gebraucht. Alle anderen sind optional.  
+Bei Hilfsfunktionen, die mehr als einen Parameter haben(Außer `isIntent(...)`) wird außer dem Particle nur ein zusätzlicher Parameter gebraucht. Alle anderen sind optional.  
 Bspw. um einen Reprompt zu testen ist die Hilfsfunktion folgendermaßen definiert:
 
 ```js
@@ -125,13 +136,14 @@ Dabei wird **mindestens ein geklammerter Parameter** gebraucht. Um speziell bspw
 isReprompt(particle, { hintToCheck: 'ein Hint' })
 ```
 
-▶️💡: Die Syntax für die Optionale Parameter basiert auf simulierte named Parameter in Javascript. Hier ein gute Quelle diesbezüglich: [Named Parameters in Javascript](https://exploringjs.com/impatient-js/ch_callables.html#named-parameters)
+▶️💡: Die Syntax für die Optionale Parameter basiert auf simulierte named Parameter in Javascript. Hier eine gute Quelle diesbezüglich: [Named Parameters in Javascript](https://exploringjs.com/impatient-js/ch_callables.html#named-parameters)
 
 ##### Beispiele mit Hilfsfunktionen
 
 Im Folgenden jeweils ein Beispiel für die verschiedenen Möglichkeiten die Hilfsfunktionen zu nutzen:
 
 - Anmerkung: Das Particle entstammt aus einer Anfrage(Siehe _Anfrage_ Part ⏫).
+- Hiebei sei nochmal auf die Liste aller vorhandenen Funktionen verwiesen die auf JSDoc basiert 😉: [Ausführliche Dokumentation](./docs/js-doc.md) ‍.
 
 1. Auf **Reprompt** testen:
 
@@ -139,7 +151,7 @@ Im Folgenden jeweils ein Beispiel für die verschiedenen Möglichkeiten die Hilf
 isReprompt(particle, { hintToCheck: 'Ein Hint' })
 ```
 
-2. **Contents**: Auf Merkmal in Adaptive Card testen:
+2. **Contents**: Auf Merkmal in Adaptive Card oder Text testen:
 
 > Contents haben ein `shows` Prefix
 
@@ -154,7 +166,7 @@ showsText(particle, 'Ein text in einer plain node')
 > Controls haben ein `triggers` Prefix
 
 ```js
-triggersAudio(particle, 'www.audio.de/mp3')
+triggersAudio(particle, 'www.audio.de/music.mp3')
 ```
 
 4. **Directives**: Auf Email erstellen testen:
@@ -173,16 +185,12 @@ isSticky(particle, 'Ein text in einer Sticky')
 
 6. **Intent** confidence testen:
 
-- **ANMERKUNG:** Dies ist die einzige Methode, bei dem die Regel bezüglich optionaler Parameter nicht gilt. Es müssen alle Parameter angegeben werden(Also `intent` und `confidenceThreshold`)
+- _ANMERKUNG:_ Dies, ist die einzige Methode bei dem die Regel bezüglich optionaler Parameter nicht gilt. Es müssen alle Parameter angegeben werden(Also `intent` und `confidenceThreshold`)
 
 ```js
 // confidence für neo.hello muss mindestens 0.79 betragen
 isIntent(particle, 'neo.hello', 0.79)
 ```
-
----
-
-Hiebei sei nochmal auf die Liste aller vorhandenen Funktionen verwiesen die auf JSDoc basiert 😉: [Ausführliche Dokumentation](./docs/js-doc.md) ‍.
 
 #### Spezielle Tests schreiben
 
@@ -195,6 +203,58 @@ pm.test('[TEST-BESCHREIBUNG]', () => {
 ```
 
 Siehe die [Postman Dokumentation](https://learning.postman.com/docs/writing-scripts/test-scripts/). Die Assertions basieren auf das [ChaiJS Framework](https://www.chaijs.com/api/bdd/).
+
+## Versionierung
+
+Zur Versionierung kommt [Semantische Versionierung](https://docs.npmjs.com/about-semantic-versioning) zum einsatz.  
+Die einzelnen Versionen werden mittels [Git Tags](https://stackoverflow.com/questions/35979642/what-is-git-tag-how-to-create-tags-how-to-checkout-git-remote-tags) gesammelt und können dann von Postman zugegriffen werden.
+
+- [Release erstellen](https://docs.npmjs.com/cli/v7/commands/npm-version): `npm version [<newversion> | major | minor | patch | premajor | preminor | prepatch | prerelease [--preid=<prerelease-id>] | from-git]`
+
+### Von Postman auf Versionierte Version zugreifen
+
+Um von Postman bestimmte Hilfsfunktionen von einer bestimmten Version zu bekommen wird auf die `raw` Version der Funktionsdatei verlinkt.  
+Dies Funktioniert folgendermaßen:
+
+1. Auf Github die `raw` Version der Funktionsdatei(In `./lib`, bspw. `./lib/neo-test-functions.js`) holen.
+2. URL der `raw` Datei kopieren
+3. In Postman im `pre-request` Tab beim Request als Ziel URL einsetzen:
+
+Siehe in `./lib/pre-request.js`:
+
+```js
+// ...
+    return new Promise((res, rej) => {
+      pm.sendRequest('[RAW_NEO_TESTING_LINK]', (error, response) => {
+        if (error) {
+// ...
+```
+
+### Eigene Hilfsfunktionen hinzufügen
+
+Falls weitere Hilfsfunktionen zum Testen gebraucht werden, kann man die bestehenden Funktionen erweitern. Dies ist Hilfreich, wenn man Testfunktionen braucht die für spezielle Use-cases hilfreich sind und nicht generell bei allen Flows genutzt werden(Bspw. _Twilio_ Test Funktionen). Diese kann man dann in Postman auch in mehreren Workspaces/Tests nutzen. Ein paar anderen Vorteile sind unter anderem Code duplication vermeiden und die Übersichtlicher verbessern.  
+Folgendermaßen kann man eigene Funktionen hinzufügen:
+
+1. Funktion erstmal _lokal_ in Postman testen und auf Richtigkeit überprüfen
+2. In diesem Repository eine [neuen Branch erstellen](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-and-deleting-branches-within-your-repository)
+3. Im neuen Branch, die `./lib/neo-test-functions.js` duplizieren und passend benennen
+4. In der duplizierten Datei, die Funktion ganz unten bei dem 'TODO` Kommentar einfügen:
+
+```js
+  }
+
+  // TODO ADD HERE CUSTOM FUNCTIONS
+
+  return {
+    // TODO NAME DER FUNKTION EINFÜGEN
+```
+
+5. Funktionsname im `return` Objekt einfügen
+6. Alles in git [commiten und pushen](https://docs.github.com/en/github/managing-files-in-a-repository/adding-a-file-to-a-repository-using-the-command-line)
+7. Auf Github für den Branch ein [Pull Request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/requesting-a-pull-request-review) öffnen
+8. Daniel(daniel@neohelden.com) oder jemand anderes aus dem Team [assignen](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/requesting-a-pull-request-review)
+
+Um in Postman auf die Versionierte Version zugreifen zu können, siehe letzen Abschnitt _Von Postman auf Versionierte Version zugreifen_
 
 ## Nützliche links 🔗
 
@@ -220,11 +280,13 @@ Folder Structure:
 flow-testing-manual
 ├── README.md
 ├── docs
-│   └── js-doc.md -> JSDoc
+│   ├── docs-neo-test-functions.js
+│   └── js-doc.md -> JSDOC
 ├── lib
-│   ├── full-test-template.js -> All functions together with the tests to use without function dependency
-│   └── neo-test-functions.js -> Neo test helper functions
+│   ├── neo-test-functions.js -> DEFAULT TEST FUNCTIONS
+│   └── postman-templates
+│       ├── pre-request.js -> POSTMAN PRE-REQUEST TEMPLATE
+│       └── test-template.js -> POSTMAN TEST TEMPLATE
 ├── package-lock.json
-├── package.json
-└── test-template.js -> Test template used in Postman with function dependencies
+└── package.json
 ```
