@@ -265,7 +265,7 @@ Um in Postman auf die erstellte Version der Hilfsfunktion zugreifen zu können, 
 2. Particle:
    - Swagger Dokumentation: <https://cypher.neohelden.com/api/v1/docs/#/>
    - <https://docs.neohelden.com/de/particle>
-3. Postman<https://learning.postman.com/docs/writing-scripts/test-scripts/>
+3. Postman: <https://learning.postman.com/docs/writing-scripts/test-scripts/>
 4. ChaiJS: <https://www.chaijs.com/api/bdd/>
 
 ## Contribute 😄 👨‍💻 👩‍💻 & Dev notes
