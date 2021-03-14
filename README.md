@@ -16,6 +16,7 @@ Dafür wird [Postman](https://neohelden.postman.co/) 👨‍🚀 genutzt.
       - [Neo testing Helfer](#neo-testing-helfer)
         - [Particle](#particle)
         - [Optionale Parameter](#optionale-parameter)
+        - [Eine bestimmte Nachricht auswählen](#eine-bestimmte-nachricht-auswählen)
         - [Beispiele mit Hilfsfunktionen](#beispiele-mit-hilfsfunktionen)
       - [Spezielle Tests schreiben](#spezielle-tests-schreiben)
   - [Versionierung](#versionierung)
@@ -137,6 +138,22 @@ isReprompt(particle, { hintToCheck: 'ein Hint' })
 ```
 
 ▶️💡: Die Syntax für die Optionale Parameter basiert auf simulierte named Parameter in Javascript. Hier eine gute Quelle diesbezüglich: [Named Parameters in Javascript](https://exploringjs.com/impatient-js/ch_callables.html#named-parameters)
+
+##### Eine bestimmte Nachricht auswählen
+
+Werden mehrere Nachrichten bei einer Antwort verschickt, kann man auf eine bestimmte Nachricht testen. Dies wird durch einen optionalen Parameter `elementNumber` ermöglicht. Dieser gibt an, welche Nachricht ausgewählt werden soll. Ein Beispiel, mit Erklärungen in den Kommentaren:
+
+```js
+particle = await sendAction('handshake')
+// Die erste Nachricht soll ein Text sein
+showsText(particle, 'Wie kann ich dir helfen', { elementNumber: 1 })
+// Die Zweite Nachricht soll eine Adaptive Card sein
+showsAdaptiveCard(particle, 'Tests für den letzten Release', {
+  elementNumber: 2,
+})
+// Die Dritte Nachricht soll eine Adaptive Card sein
+showsAdaptiveCard(particle, 'Alle Tests', { elementNumber: 3 })
+```
 
 ##### Beispiele mit Hilfsfunktionen
 
