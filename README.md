@@ -19,7 +19,7 @@ Dafür wird [Postman](https://neohelden.postman.co/) 👨‍🚀 genutzt.
         - [Beispiele mit Hilfsfunktionen](#beispiele-mit-hilfsfunktionen)
       - [Spezielle Tests schreiben](#spezielle-tests-schreiben)
   - [Versionierung](#versionierung)
-    - [Von Postman auf Versionierte Version zugreifen](#von-postman-auf-versionierte-version-zugreifen)
+    - [Von Postman auf spezielle Version der Hilfsfunktionen zugreifen](#von-postman-auf-spezielle-version-der-hilfsfunktionen-zugreifen)
     - [Eigene Hilfsfunktionen hinzufügen](#eigene-hilfsfunktionen-hinzufügen)
   - [Nützliche links 🔗](#nützliche-links-)
   - [Contribute 😄 👨‍💻 👩‍💻 & Dev notes](#contribute-----dev-notes)
@@ -211,7 +211,7 @@ Die einzelnen Versionen werden mittels [Git Tags](https://stackoverflow.com/ques
 
 - [Release erstellen](https://docs.npmjs.com/cli/v7/commands/npm-version): `npm version [<newversion> | major | minor | patch | premajor | preminor | prepatch | prerelease [--preid=<prerelease-id>] | from-git]`
 
-### Von Postman auf Versionierte Version zugreifen
+### Von Postman auf spezielle Version der Hilfsfunktionen zugreifen
 
 Um von Postman bestimmte Hilfsfunktionen von einer bestimmten Version zu bekommen wird auf die `raw` Version der Funktionsdatei verlinkt.  
 Dies Funktioniert folgendermaßen:
