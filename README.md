@@ -272,7 +272,7 @@ Um in Postman auf die erstellte Version der Hilfsfunktion zugreifen zu können, 
 
 1. JSDoc generieren: `npm run doc`
 2. Pls. changes in Postman testen :-D
-3. PR aufmachen & mir(@daniel@neohelden.com) oder jemand anderes assignen
+3. PR aufmachen & mir(daniel@neohelden.com) oder jemand anderes assignen
 
 Folder Structure:
 
