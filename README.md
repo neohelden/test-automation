@@ -232,7 +232,7 @@ Siehe in `./lib/pre-request.js`:
 
 ### Eigene Hilfsfunktionen hinzufügen
 
-Falls weitere Hilfsfunktionen zum Testen gebraucht werden, kann man die bestehenden Funktionen erweitern. Dies ist Hilfreich, wenn man Testfunktionen braucht die für spezielle Use-cases hilfreich sind und nicht generell bei allen Flows genutzt werden(Bspw. _Twilio_ Test Funktionen). Diese kann man dann in Postman auch in mehreren Workspaces/Tests nutzen. Ein paar anderen Vorteile sind unter anderem Code duplication vermeiden und die Übersichtlicher verbessern.  
+Falls weitere Hilfsfunktionen zum Testen gebraucht werden, kann man die bestehenden Funktionen erweitern. Dies ist Hilfreich, wenn man Testfunktionen braucht die für spezielle Use-cases hilfreich sind und nicht generell bei allen Flows genutzt werden(Bspw. _Twilio_ Test Funktionen). Diese kann man dann in Postman auch in mehreren Workspaces/Tests nutzen. Ein paar anderen Vorteile sind unter anderem Code duplication zu vermeiden und die Übersichtlichkeit zu verbessern.  
 Folgendermaßen kann man eigene Funktionen hinzufügen:
 
 1. Funktion erstmal _lokal_ in Postman testen und auf Richtigkeit überprüfen
