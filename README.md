@@ -236,7 +236,7 @@ Falls weitere Hilfsfunktionen zum Testen gebraucht werden, kann man die bestehen
 Folgendermaßen kann man eigene Funktionen hinzufügen:
 
 1. Funktion erstmal _lokal_ in Postman testen und auf Richtigkeit überprüfen
-2. In diesem Repository eine [neuen Branch erstellen](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-and-deleting-branches-within-your-repository)
+2. In diesem Repository einen [neuen Branch erstellen](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-and-deleting-branches-within-your-repository)
 3. Im neuen Branch, die `./lib/neo-test-functions.js` duplizieren und passend benennen
 4. In der duplizierten Datei, die Funktion ganz unten bei dem 'TODO` Kommentar einfügen:
 
@@ -254,7 +254,7 @@ Folgendermaßen kann man eigene Funktionen hinzufügen:
 7. Auf Github für den Branch ein [Pull Request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/requesting-a-pull-request-review) öffnen
 8. Daniel(daniel@neohelden.com) oder jemand anderes aus dem Team [assignen](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/requesting-a-pull-request-review)
 
-Um in Postman auf die Versionierte Version zugreifen zu können, siehe letzen Abschnitt _Von Postman auf Versionierte Version zugreifen_
+Um in Postman auf die erstellte Version der Hilfsfunktion zugreifen zu können, siehe letzen Abschnitt _Von Postman auf Versionierte Version zugreifen_
 
 ## Nützliche links 🔗
 
