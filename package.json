@@ -1,6 +1,6 @@
 {
   "name": "flow-testing-manual",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "> Beschreibung und Vorlagen für das Flow testing mit Postman",
   "main": "test-template.js",
   "dependencies": {
