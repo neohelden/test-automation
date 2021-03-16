@@ -5,8 +5,9 @@
 > Separate Validierung der speak Befehle und kleinere Fixes: [#2](https://github.com/neohelden/flow-testing-manual/pull/2)
 
 - Fix: Der fuzzy search testet genau den gesuchten Attribut und nicht ob der gegebene Text allgemein Vorkommt
+- Refactor: Add Functions to narrow down particle and reduce code duplication
 - Fix: Rename from `elementNumber` to `position`
-- Feat: `says(text, [contentType])` Funktion um auf speak Attribut zu testen
+- Feat: `says(text, [contentType], [position])` Funktion um auf speak Attribut zu testen
 
 ## v0.2.0
 
