@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v2.0.0
+## v0.2.0
 
 1. Vereinfachung des Particle Zustandsmanagement: Siehe [#1](https://github.com/neohelden/flow-testing-manual/pull/1)
    - Nutzung eines Globalen `particle` Objekts
@@ -9,7 +9,7 @@
      - Entfernen des Particles als Parameter der meisten Test-Hilfsfunktionen(Siehe API-Docs)
      - `isContentType` und `isDirectiveType` haben die Möglichkeit ein Particle als optionalen Parameter zu bekommen
 
-## v1.0.0
+## v0.1.0
 
 1. API Design
    - Anfragen mittels NEAP-API erstellen
