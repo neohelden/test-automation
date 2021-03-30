@@ -2,7 +2,7 @@
 
 > Beschreibung und Vorlagen für das Flow Testing mit Postman
 
-Mithilfe der [NEAP-API](https://docs.neohelden.com/neap-api-docs/ref), kann man Tests auf den Flows ausführen.  
+Mithilfe der [NEAP-API](https://docs.neohelden.com/neap-api-docs/ref), können Testfälle für bestehende Flows geschrieben und ausgeführt werden.  
 Dafür wird [Postman](https://neohelden.postman.co/) 👨‍🚀 genutzt.
 
 - [Flow Testing mit Postman 🧪](#flow-testing-mit-postman-)
@@ -29,7 +29,7 @@ Dafür wird [Postman](https://neohelden.postman.co/) 👨‍🚀 genutzt.
 
 ## Test auf Postman erstellen
 
-Folgende Schritte sind notwendig um einen neuen Test anzulegen:
+Um einen neuen Test zu erstellen, sind folgende Schritte notwendig:
 
 1. In der `Templates` Collection das `[PROECT-NAME]` Template duplizieren.
 2. In die `NEAP Testing` Collections verschieben
@@ -42,7 +42,7 @@ Folgende Schritte sind notwendig um einen neuen Test anzulegen:
 
 ## Authentifizierung und Umgang mit Zugangsdaten
 
-Wenn es sich nicht um ein `Anonymous` Workspace handelt, sollten die folgenden Schritte um Bezug auf Authentifizierung gemacht werden:
+Wenn es sich nicht um ein `Anonymous` Workspace handelt, müssen die folgenden Schritte zur Authentifizierung durchgeführt werden:
 
 1. Falls nicht vorhanden App-User im Workspace erstellen
 2. Im _Body_-Tab des Postman Requests den `Username` des App-Users und `Password` im JSON einfügen:
@@ -54,18 +54,18 @@ Wenn es sich nicht um ein `Anonymous` Workspace handelt, sollten die folgenden S
 }
 ```
 
-3. **WICHTIG:** Nach dem Ausführen der Tests, die Anmeldedaten aus dem `Body`-Tab wieder entfernen. Somit wird sichergestellt, dass keine Anmeldeinformationen im Klartext zurückbleiben. Nach dem Entfernen, Testfall abspeichern
+3. **WICHTIG:** Nach dem Ausführen der Tests, die Anmeldedaten aus dem `Body`-Tab wieder entfernen. Damit ist sichergestellt, dass keine Anmeldeinformationen im Klartext zurückbleiben. Nach dem Entfernen, Testfall abspeichern.
 
 ## Test Cases erstellen
 
-Ein Test besteht aus 2 Bestandteile:
+Ein Test setzt sich aus 2 Bestandteilen zusammen:
 
 1. Anfrage(`request`)
 2. Auswerten der Antwort bzw. des `particle`
 
 ### Anfrage machen
 
-Es gibt 3 Möglichkeiten Anfragen zu machen. Diese werden im Folgenden gezeigt werden.
+Es gibt 3 Möglichkeiten Anfragen zu erstellen:
 
 #### 1. Messages
 
@@ -92,7 +92,7 @@ await sendReply('Text der als Reply kommen soll')
 
 #### 3. Action
 
-> Die Action kann man Bspw. Für den Handshake nutzen oder um mit Adaptive Cards zu interagieren.
+> Die Action kann man Bspw. für den Handshake oder eine Interaktion mit Adaptive Cards genutzt werden.
 
 ```js
 await sendAction('handshake')
@@ -102,7 +102,7 @@ await sendAction('ButtonInAdaptiveCard')
 
 ##### 3.1 sendAdaptiveCardAction Methode
 
-Außer der einfachen Action gibt es noch die Möglichkeit eine Action auszuführen und dabei das `data` Attribut einer Adaptive Card zu nutzen. Dies ist nützlich, wenn man Bspw. Mittels Buttons in einer Adaptive Card Actions ausführen möchten.
+Außer der einfachen Action gibt es noch die Möglichkeit eine Action auszuführen und dabei das `data` Attribut einer Adaptive Card zu nutzen. Dadurch kann zum Beispiel ein Button in einer Adaptive Card Action ausgeführt werden.
 
 ```js
 // Mache eine Action Anfrage mit der "dieAction" Action und dem dazugehörigen Daten
@@ -111,14 +111,14 @@ await sendAdaptiveCardAction('dieAction')
 
 ### Antwort auswerten
 
-Um das erwartete Particle auszuwerten, kann man alle Response Attribute des Particles nutzen. Diese kann man im [Particle Schema](https://cypher.neohelden.com/api/v1/docs/#/) nachlesen. Oder auch in den [Docs](https://docs.neohelden.com/de/particle).
+Zur Auswertung des erwarteten Particle können alle Response Attribute des Particles verwendet werden. Diese können im [Particle Schema](https://cypher.neohelden.com/api/v1/docs/#/) oder in den [Docs](https://docs.neohelden.com/de/particle) nachgelesen werden.
 
 #### Neo Testing Helfer
 
-Um das Testen der Particle Antwort so einfach wie möglich zu machen gibt es Hilfsfunktionen. Diese kann man einfach aufrufen um den Antwort Particle auf Bspw. Einer Adaptive Card zu testen. Man kann mehrere dieser Funktionen nutzen, um die Genauigkeit des Tests zu erhöhen.
+Um das Testen des Particle Response so einfach wie möglich zu gestalten, gibt es Hilfsfunktionen. Diese können aufgerufen werden, um den Antwort Particle auf Bspw. Einer Adaptive Card zu testen. Um die Genauigkeit des Tests zu erhöhen, können mehrere dieser Funktionen genutzt werden. 
 
 Eine Liste aller vorhandenen Funktionen findet sich hier: [ausführliche Dokumentation](./docs/js-doc.md) 👨‍🎓. Dabei wird [JS Doc](https://jsdoc.app/) Syntax verwendet.
-Die Kurzversion kann man auch beim Importieren ganz oben in der Template-Datei sehen:
+In der Template-Datei ist eine Kurzversion der Funktionen hinterlegt:
 
 ```js
 // Neo Hilfsfunktionen:
@@ -135,14 +135,9 @@ const {
   //... -> Siehe Postman Template Import
 ```
 
-Im Folgenden ein paar Anmerkungen und Beispiele wie man diese nutzen kann.
-
 ##### Beispiele mit Hilfsfunktionen
 
-Im Folgenden jeweils ein Beispiel für die verschiedenen Möglichkeiten die Hilfsfunktionen zu nutzen:
-
-- Hierbei sei nochmal auf die Liste aller vorhandenen Funktionen verwiesen die auf JS Doc basiert 😉: [ausführliche Dokumentation](./docs/js-doc.md) ‍.
-- Die Werte in geschweifter Klammer sind _optionale Parameter_. Mehr dazu im nächsten Abschnitt.
+Hinweis: Die Werte in geschweifter Klammer sind _optionale Parameter_. Mehr dazu im nächsten Abschnitt.
 
 1. Auf **Reprompt** testen:
 
@@ -191,8 +186,8 @@ isIntent('neo.hello', 0.79)
 
 ##### Optionale Parameter
 
-Die meisten Funktionen haben optionale Parameter. Ein solcher ist Bspw. `position`. Damit kann man, falls mehrere Nachrichten zurückgegeben werden, auf eine bestimmte testen. Mehr dazu im nächsten Abschnitt.  
-Die Liste der optionale Parameter für die jeweilige Funktion, kann man am besten in den [JS Docs](https://jsdoc.app/) nachlesen: [ausführliche Dokumentation](./docs/js-doc.md). Hier werden optionale Parameter mit eckigen Klammern dargestellt(`[]`). Beispiel von Doku und Anwendung im Test:
+Viele Funktionen haben optionale Parameter. Zum Beispiel kann mit `position` auf eine bestimmte Nachricht getestet werden, wenn wir mehrere Nachrichten erwarten.
+Die Liste der optionalen Parameter für die jeweilige Funktion, kann in den [JS Docs](https://jsdoc.app/) nachgelesen werden: [ausführliche Dokumentation](./docs/js-doc.md). Hier werden optionale Parameter mit eckigen Klammern dargestellt(`[]`). Beispiel von Doku und Anwendung im Test:
 
 ```js
 // ... Hier anfrage
@@ -201,13 +196,13 @@ Die Liste der optionale Parameter für die jeweilige Funktion, kann man am beste
 triggersSuggestion({ label: 'Ein Label einer Suggestion' })
 ```
 
-Wenn im oberen Fall, kein Pflichtparameter(Nicht in eckigen Klammern) existiert wird bei leerer Parameterübergabe lediglich getestet ob es sich um den jeweiligen Content type oder Direktive handelt.
+Wenn kein Pflichtparameter (Nicht in eckigen Klammern) existiert, wird bei leerer Parameterübergabe lediglich getestet, ob es sich um den jeweiligen Content type oder Direktive handelt.
 
-▶️💡: Die Syntax für die optionalen Parameter basiert auf simulierte named Parameter in Javascript. Hier eine gute Quelle diesbezüglich: [Named Parameters in Javascript](https://exploringjs.com/impatient-js/ch_callables.html#named-parameters)
+▶️💡: Die Syntax für die optionalen Parameter basiert auf simulierten named Parametern in Javascript. Hier ist eine gute Quelle dazu: [Named Parameters in Javascript](https://exploringjs.com/impatient-js/ch_callables.html#named-parameters)
 
 ###### Eine bestimmte Nachricht auswählen
 
-Werden mehrere Nachrichten bei einer Antwort verschickt, kann man auf eine bestimmte Nachricht testen. Dies wird durch einen optionalen Parameter `position` ermöglicht. Dieser gibt an, welche Nachricht ausgewählt werden soll. Ein Beispiel, mit Erklärungen in den Kommentaren:
+Werden mehrere Nachrichten bei einer Antwort verschickt, kann man auf eine bestimmte Nachricht testen. Der optionale Parameter `position` ermöglicht einen solchen Test. Dieser gibt an, welche Nachricht ausgewählt werden soll. Ein Beispiel, mit Erklärungen in den Kommentaren:
 
 ```js
 await sendAction('handshake')
@@ -231,11 +226,11 @@ pm.test('[TEST-BESCHREIBUNG]', () => {
 })
 ```
 
-Siehe die [Postman Dokumentation](https://learning.postman.com/docs/writing-scripts/test-scripts/). Die Assertions basieren auf das [ChaiJS Framework](https://www.chaijs.com/api/bdd/).
+Siehe die [Postman Dokumentation](https://learning.postman.com/docs/writing-scripts/test-scripts/). Die Assertions basieren auf dem [ChaiJS Framework](https://www.chaijs.com/api/bdd/).
 
 #### Das Particle
 
-Es ist nicht nötig den Particle zu verarbeiten. Wenn dies jedoch gewollt ist, kann man auf diesen durch den Rückgabewert zugreifen.
+Es ist nicht nötig den Particle zu verarbeiten. Wenn dies jedoch gewünscht ist, kann über den Rückgabewert darauf zugegriffen werden.
 
 ```js
 const particle = await sendMessage('Ein Intent auslösen')
@@ -245,14 +240,14 @@ const particle = await sendMessage('Ein Intent auslösen')
 ## Versionierung
 
 Zur Versionierung kommt [Semantische Versionierung](https://docs.npmjs.com/about-semantic-versioning) zum Einsatz.  
-Die einzelnen Versionen werden mittels [Git Tags](https://stackoverflow.com/questions/35979642/what-is-git-tag-how-to-create-tags-how-to-checkout-git-remote-tags) gesammelt und können dann von Postman zugegriffen werden.
+Die einzelnen Versionen werden mittels [Git Tags](https://stackoverflow.com/questions/35979642/what-is-git-tag-how-to-create-tags-how-to-checkout-git-remote-tags) gesammelt und können über Postman zugegriffen werden.
 
 - [Release erstellen](https://docs.npmjs.com/cli/v7/commands/npm-version): `npm version [<newversion> | major | minor | patch | premajor | preminor | prepatch | prerelease [--preid=<prerelease-id>] | from-git]`
 
 ### Von Postman auf spezielle Version der Hilfsfunktionen zugreifen
 
 Um von Postman bestimmte Hilfsfunktionen von einer bestimmten Version zu bekommen wird auf die `raw` Version der Funktionsdatei verlinkt.  
-Dies Funktioniert folgendermaßen:
+Dies funktioniert folgendermaßen:
 
 1. Auf GitHub die `raw` Version der Funktionsdatei(In `./lib`, bspw. `./lib/neo-test-functions.js`) holen.
 2. URL der `raw` Datei kopieren
@@ -270,10 +265,10 @@ Siehe in `./lib/pre-request.js`:
 
 ### Eigene Hilfsfunktionen hinzufügen
 
-Falls weitere Hilfsfunktionen zum Testen gebraucht werden, kann man die bestehenden Funktionen erweitern. Dies ist Hilfreich, wenn man Testfunktionen braucht die für spezielle Use-Cases hilfreich sind und nicht generell bei allen Flows genutzt werden(Bspw. _Twilio_ Test Funktionen). Diese kann man dann in Postman auch in mehreren Workspaces/Tests nutzen. Ein paar andere Vorteile sind unter anderem Code duplication zu vermeiden und die Übersichtlichkeit zu verbessern.  
-Folgendermaßen kann man eigene Funktionen hinzufügen:
+Wenn weitere Hilfsfunktionen zum Testen benötigt werden, können vorhandene Funktionen erweitert werden. Dadurch können Testfunktionen um Sonderfälle erweitert und zur Vermeidung von Codeduplikaten in mehreren Workspaces verwendet werden.
+Beispiel: _Twilio_-Testfunktionen
 
-1. Funktion erstmal _lokal_ in Postman testen und auf Richtigkeit überprüfen
+1. Funktion _lokal_ in Postman testen und auf Korrektheit überprüfen
 2. In diesem Repository einen [neuen Branch erstellen](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-and-deleting-branches-within-your-repository)
 3. Im neuen Branch, die `./lib/neo-test-functions.js` duplizieren und passend benennen
 4. In der duplizierten Datei, die Funktion ganz unten bei dem 'TODO` Kommentar einfügen:
@@ -292,7 +287,7 @@ Folgendermaßen kann man eigene Funktionen hinzufügen:
 7. Auf GitHub für den Branch ein [Pull Request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/requesting-a-pull-request-review) öffnen
 8. Jemand aus dem Neohelden Team [assignen](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/requesting-a-pull-request-review)
 
-Um in Postman auf die erstellte Version der Hilfsfunktion zugreifen zu können, siehe letzten Abschnitt: _Von Postman auf Versionierte Version zugreifen_. Außerdem muss man die neuen Methoden im Test Tab noch unter den Funktionsimporten angeben.
+Um in Postman auf die erstellte Version der Hilfsfunktion zugreifen zu können, siehe letzten Abschnitt: _Von Postman auf Versionierte Version zugreifen_. Neue Methoden müssen in der Registerkarte Test unter den Funktionsimporten angeben werden.
 
 ## Nützliche links 🔗
 
@@ -310,7 +305,7 @@ Um in Postman auf die erstellte Version der Hilfsfunktion zugreifen zu können, 
 
 1. JS Doc generieren: `npm run doc`
 2. Änderungen in Postman testen
-3. PR aufmachen & Neoheld zur review assignen
+3. PR aufmachen & Neoheld zur Review assignen
 
 Ordner Struktur:
 
