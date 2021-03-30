@@ -102,10 +102,11 @@ await sendAction('ButtonInAdaptiveCard')
 
 ##### 3.1 sendAdaptiveCardAction Methode
 
-Außer der einfachen Action gibt es noch die Möglichkeit eine Action auszuführen und dabei das `data` Attribut einer Adaptive Card zu nutzen. Dadurch kann zum Beispiel ein Button in einer Adaptive Card Action ausgeführt werden.
+Außer der einfachen Action gibt es noch die Möglichkeit, eine Action auszuführen und dabei das `data` Attribut einer Adaptive Card zu nutzen.  
+Durch diese Methode ist es möglich, ein Button in einer Adaptive Card auszuführen. Dafür braucht man eine Adaptive Card mit einem Button als Action Auslöser. Mit der `sendAdaptiveCardAction` Methode kann man dann diesen Button durch die Action ausführen. Dabei werden als Besonderheit noch die Daten des `data` Attributes mitgeschickt. Somit kann ein bestimmter Kontext beim interagieren mit einer Adaptive Card erhalten bleiben.
 
 ```js
-// Mache eine Action Anfrage mit der "dieAction" Action und dem dazugehörigen Daten
+// Mache eine Action Anfrage mit der "dieAction" Action und den dazugehörigen Daten
 await sendAdaptiveCardAction('dieAction')
 ```
 
