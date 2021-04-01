@@ -275,18 +275,6 @@ const showsText = (text, { position = null } = {}) => {
 // ------ NEO CONTROLS ------
 
 /**
- * Check for expected url to trigger audio from
- * @param {String} url to trigger the audio from
- * @param {Number} [position] nth Element to check(Optional). Default: Search whether a content type with the attribute exists in all messages.
- */
-const triggersAudio = (url, { position = null } = {}) => {
-  if (!isValidInput(url)) return
-  const restrictedParticle = narrowParticle(position, 'directives')
-  isDirective('audio', { particle: restrictedParticle })
-  fuzzyDataSearchTest(restrictedParticle.response.directives, url, 'url')
-}
-
-/**
  * Check for camera triggering parameters
  * @param {String} target expected to trigger camera
  * @param {String} mode expected to use for uploading
@@ -512,9 +500,11 @@ const getKeys = (obj, val, { exact = null, path = [] } = {}) => {
       }
       objects = objects.concat(getKeys(obj[prop], val, { path: newPath, exact: exact })) // Recursive call
     } else if (typeof obj[prop] === 'string' || typeof obj[prop] === 'number') {
-      const searchAsRegEx = new RegExp(`${val}`, 'gi')
-      const searchResult = exact ? obj[prop].toString().localeCompare(val) : obj[prop].toString().match(searchAsRegEx)
-      if (searchResult === 0 || (Array.isArray(searchResult) && searchResult.length > 0)) {
+      // From MDN itself: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
+      const escapedString = `${val}`.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      const searchAsRegEx = new RegExp(`${escapedString}`, 'gi')
+      const searchResult = exact ? obj[prop].toString().localeCompare(val) : searchAsRegEx.test(obj[prop].toString())
+      if (searchResult || (Array.isArray(searchResult) && searchResult.length > 0)) {
         // Fuzzy search
         objects.push({ key: prop, path: newPath })
       }

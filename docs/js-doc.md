@@ -50,9 +50,6 @@ Useful f.ex for actions like Button clicks on adaptive cards</p>
 <dt><a href="#showsText">showsText(text, [position])</a></dt>
 <dd><p>Check Plain node for expected text</p>
 </dd>
-<dt><a href="#triggersAudio">triggersAudio(url, [position])</a></dt>
-<dd><p>Check for expected url to trigger audio from</p>
-</dd>
 <dt><a href="#triggersCamera">triggersCamera(target, mode, [position])</a></dt>
 <dd><p>Check for camera triggering parameters</p>
 </dd>
@@ -302,18 +299,6 @@ Check Plain node for expected text
 | Param | Type | Description |
 | --- | --- | --- |
 | text | <code>String</code> | to expect |
-| [position] | <code>Number</code> | nth Element to check(Optional). Default: Search whether a content type with the attribute exists in all messages. |
-
-<a name="triggersAudio"></a>
-
-## triggersAudio(url, [position])
-Check for expected url to trigger audio from
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| url | <code>String</code> | to trigger the audio from |
 | [position] | <code>Number</code> | nth Element to check(Optional). Default: Search whether a content type with the attribute exists in all messages. |
 
 <a name="triggersCamera"></a>

@@ -141,7 +141,7 @@ showsText('Ein text in einer plain node')
 > Bedienungselemente haben ein `triggers` Präfix
 
 ```js
-triggersAudio('www.audio.de/music.mp3')
+triggersSuggestion({ label: 'Suggestion label', value: 'Suggestion value' })
 ```
 
 4. **Directives**: Auf E-mail erstellen testen:
