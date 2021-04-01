@@ -50,6 +50,9 @@ Useful f.ex for actions like Button clicks on adaptive cards</p>
 <dt><a href="#showsText">showsText(text, [position])</a></dt>
 <dd><p>Check Plain node for expected text</p>
 </dd>
+<dt><a href="#triggersStickyClear">triggersStickyClear()</a></dt>
+<dd><p>Check whether sticky was cleared</p>
+</dd>
 <dt><a href="#triggersCamera">triggersCamera(target, mode, [position])</a></dt>
 <dd><p>Check for camera triggering parameters</p>
 </dd>
@@ -301,6 +304,12 @@ Check Plain node for expected text
 | text | <code>String</code> | to expect |
 | [position] | <code>Number</code> | nth Element to check(Optional). Default: Search whether a content type with the attribute exists in all messages. |
 
+<a name="triggersStickyClear"></a>
+
+## triggersStickyClear()
+Check whether sticky was cleared
+
+**Kind**: global function  
 <a name="triggersCamera"></a>
 
 ## triggersCamera(target, mode, [position])

@@ -275,6 +275,16 @@ const showsText = (text, { position = null } = {}) => {
 // ------ NEO CONTROLS ------
 
 /**
+ * Check whether sticky was cleared
+ */
+const triggersStickyClear = () => {
+  const { sticky } = particle.response
+  pm.test(`Check for cleared sticky value`, () => {
+    pm.expect(sticky).to.be.false
+  })
+}
+
+/**
  * Check for camera triggering parameters
  * @param {String} target expected to trigger camera
  * @param {String} mode expected to use for uploading
