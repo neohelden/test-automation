@@ -1,31 +1,7 @@
-# Flow Testing mit Postman 🧪
-
-> Beschreibung und Vorlagen für das Flow Testing mit Postman
+# Test-Automatisierung mit Postman 🧪
 
 Mithilfe der [NEAP-API](https://docs.neohelden.com/neap-api-docs/ref), können Testfälle für bestehende Flows geschrieben und ausgeführt werden.  
 Dafür wird [Postman](https://neohelden.postman.co/) 👨‍🚀 genutzt.
-
-- [Flow Testing mit Postman 🧪](#flow-testing-mit-postman-)
-  - [Test auf Postman erstellen](#test-auf-postman-erstellen)
-  - [Authentifizierung und Umgang mit Zugangsdaten](#authentifizierung-und-umgang-mit-zugangsdaten)
-  - [Test Cases erstellen](#test-cases-erstellen)
-    - [Anfrage machen](#anfrage-machen)
-      - [1. Messages](#1-messages)
-      - [2. Reply](#2-reply)
-      - [3. Action](#3-action)
-        - [3.1 sendAdaptiveCardAction Methode](#31-sendadaptivecardaction-methode)
-    - [Antwort auswerten](#antwort-auswerten)
-      - [Neo Testing Helfer](#neo-testing-helfer)
-        - [Beispiele mit Hilfsfunktionen](#beispiele-mit-hilfsfunktionen)
-        - [Optionale Parameter](#optionale-parameter)
-          - [Eine bestimmte Nachricht auswählen](#eine-bestimmte-nachricht-auswählen)
-      - [Spezielle Tests schreiben](#spezielle-tests-schreiben)
-      - [Das Particle](#das-particle)
-  - [Versionierung](#versionierung)
-    - [Von Postman auf spezielle Version der Hilfsfunktionen zugreifen](#von-postman-auf-spezielle-version-der-hilfsfunktionen-zugreifen)
-    - [Eigene Hilfsfunktionen hinzufügen](#eigene-hilfsfunktionen-hinzufügen)
-  - [Nützliche links 🔗](#nützliche-links-)
-  - [Contribute 😄 👨‍💻 👩‍💻 & Entwicklungshinweise](#contribute-----entwicklungshinweise)
 
 ## Test auf Postman erstellen
 
@@ -42,10 +18,10 @@ Um einen neuen Test zu erstellen, sind folgende Schritte notwendig:
 
 ## Authentifizierung und Umgang mit Zugangsdaten
 
-Wenn es sich nicht um ein `Anonymous` Workspace handelt, müssen die folgenden Schritte zur Authentifizierung durchgeführt werden:
+Wenn es sich nicht um ein Workspace mit `anonymous`-Authentifizierung handelt, müssen die folgenden Schritte zur Authentifizierung durchgeführt werden:
 
-1. Falls nicht vorhanden App-User im Workspace erstellen
-2. Im _Body_-Tab des Postman Requests den `Username` des App-Users und `Password` im JSON einfügen:
+1. Erstelle einen neuen App-User für den Workspace über die Benutzerverwaltung
+2. Im _Body_-Tab der Postman-Anfrage den `Username` des App-Users und `Password` einfügen:
 
 ```json
 {
@@ -54,76 +30,80 @@ Wenn es sich nicht um ein `Anonymous` Workspace handelt, müssen die folgenden S
 }
 ```
 
-3. **WICHTIG:** Nach dem Ausführen der Tests, die Anmeldedaten aus dem `Body`-Tab wieder entfernen. Damit ist sichergestellt, dass keine Anmeldeinformationen im Klartext zurückbleiben. Nach dem Entfernen, Testfall abspeichern.
+3. **Sicherheitshinweis:** Synchronisierte Testfälle sollten die Zugangsdaten für den Workspace nicht im Klartext speichern. Die Zugangsdaten sollten separat über einen Passwort-Manager ausgetauscht werden. Die gespeicherten und synchronisierten Testfälle sollten mit Platzhaltern (s. Beispiel oben) arbeiten.
 
-## Test Cases erstellen
+## Anfrage-Arten (`Request-Type`)
 
-Ein Test setzt sich aus 2 Bestandteilen zusammen:
+Um die Funktionstüchtigkeit des Assistenten sicherzustellen, gibt es unterschiedliche Anfrage-Arten (`request-types`), die als Anwender ausgelöst werden können. Je nach Art der Anfrage können dabei zusätzliche Daten übermittelt werden.
 
-1. Anfrage(`request`)
-2. Auswerten der Antwort bzw. des `particle`
+### 1. Messages / Nachrichten
 
-### Anfrage machen
-
-Es gibt 3 Möglichkeiten Anfragen zu erstellen:
-
-#### 1. Messages
-
-> Messages können genutzt werden um Bspw.:
-
-1. Intents auszulösen
-2. Commands zu triggern
-3. Suggestions auszulösen
-4. ...
+Eine `Message` beinhaltet einen Text, der von der Plattform weiterverarbeitet wird. Beginnt die Nachricht mit einem `/` (Slash), wird die Nachricht als `Command` verarbeitet. Alle anderen Nachrichten werden mithilfe der NLU auf Intents und Slots geprüft.
 
 ```js
+// Sendet eine beliebige Nachricht ab
 await sendMessage('Ein Intent auslösen')
-// ...
-await sendMessage('/commandAuslösen')
+
+// Löst ein Kommando aus (aufgrund des beginnenden Slash)
+await sendMessage('/kommando')
+
+// Löst ein Kommando mit Argumenten aus (aufgrund des beginnenden Slash)
+await sendMessage('/resetUser Seraph')
 ```
 
-#### 2. Reply
+### 2. Reply / Antwort
 
-> Mit `sendReply()` kann man auf Replies antworten. Hier wird die `replyId` berücksichtigt.
+Eine `Reply` bezieht sich immer auf die vorhergehende Nachricht und stellt bspw. eine Antwort auf eine Rückfrage dar. Flows, die einen `Reprompt` einsetzen, erfordern im Testfall des Einsatz von `sendReply`. Auch eine `Reply` wird mithilfe der NLU verarbeitet und beinhaltet in der Antwort die Metadaten über die erkannten Intents und Slots.
 
 ```js
-await sendReply('Text der als Reply kommen soll')
+// Keine Antwort ohne vorhergehende Nachricht
+// Daher begrüßen wir Neo vorab
+await sendMessage('Hallo Neo')
+
+// Neo antwortet: Hallo, wie geht es dir?
+// Im Flow wird hier nun ein Reprompt eingesetzt
+
+await sendReply('Gut und wie geht es dir?')
 ```
 
-#### 3. Action
+### 3. Action / Aktionen
 
-> Die Action kann man Bspw. für den Handshake oder eine Interaktion mit Adaptive Cards genutzt werden.
+Eine `Action` wird über unterschiedliche Komponenten ausgelöst. Das kann bspw. der initiale (digitale) `handshake` sein. Die AdaptiveCard-, Camera- oder Upload-Komponenten lösen ebenfalls `Action`-Anfragen aus.
 
 ```js
+// Löst die Handshake-Action aus
 await sendAction('handshake')
-// ...
-await sendAction('ButtonInAdaptiveCard')
+
+// Optional können auch Daten als Payload (data-Attribut) mitgesendet werden
+await sendAction('processForm', {
+  foo: 'bar',
+})
 ```
 
-##### 3.1 sendAdaptiveCardAction Methode
+#### 3.1 sendAdaptiveCardAction Methode
 
-Außer der einfachen Action gibt es noch die Möglichkeit, eine Action auszuführen und dabei das `data` Attribut einer Adaptive Card zu nutzen.  
-Durch diese Methode ist es möglich, ein Button in einer Adaptive Card auszuführen. Dafür braucht man eine Adaptive Card mit einem Button als Action Auslöser. Mit der `sendAdaptiveCardAction` Methode kann man dann diesen Button durch die Action ausführen. Dabei werden als Besonderheit noch die Daten des `data` Attributes mitgeschickt. Somit kann ein bestimmter Kontext beim interagieren mit einer Adaptive Card erhalten bleiben.
+Es ist zudem möglich, eine Action auszuführen und dabei das `data` Attribut einer AdaptiveCard zu nutzen. Durch diese Methode ist es möglich, einen "Button in einer AdaptiveCard auszuführen". Mit der `sendAdaptiveCardAction` werden die Daten aus der AdaptiveCard als `Action`-Anfrage gesendet. Somit kann ein bestimmter Kontext beim interagieren mit einer AdaptiveCard erhalten bleiben.
 
 ```js
 // Mache eine Action Anfrage mit der "dieAction" Action und den dazugehörigen Daten
-await sendAdaptiveCardAction('dieAction')
+await sendAdaptiveCardAction('processForm')
+
+// Optional kann die Position der AdaptiveCard definiert werden
+await sendAdaptiveCardAction('processForm', 2)
 ```
 
-### Antwort auswerten
+## Antwort auswerten
 
-Zur Auswertung des erwarteten Particle können alle Response Attribute des Particles verwendet werden. Diese können im [Particle Schema](https://cypher.neohelden.com/api/v1/docs/#/) oder in den [Docs](https://docs.neohelden.com/de/particle) nachgelesen werden.
+Zur Auswertung der erwarteten Antwort können alle Bestandteile des Particles und der Antwort (`response`) verwendet werden. Diese können im [Particle Schema](https://cypher.neohelden.com/api/v1/docs/#/) oder in den [Docs](https://docs.neohelden.com/de/particle) nachgelesen werden.
 
-#### Neo Testing Helfer
+### Test-Funktionen
 
-Um das Testen des Particle Response so einfach wie möglich zu gestalten, gibt es Hilfsfunktionen. Diese können aufgerufen werden, um den Antwort Particle auf Bspw. Einer Adaptive Card zu testen. Um die Genauigkeit des Tests zu erhöhen, können mehrere dieser Funktionen genutzt werden. 
+Um das Testen des Particle Response so einfach wie möglich zu gestalten, gibt es eine Reihe von Hilfsfunktionen. Diese erleichtern die Überprüfung einzelner Inhalte mithilfe einer einfachen Syntax. Die Einzelfunktionen können dabei auch aufeinanderfolgen und unterschiedliche Aspekte der Antwort validieren.
 
-Eine Liste aller vorhandenen Funktionen findet sich hier: [ausführliche Dokumentation](./docs/js-doc.md) 👨‍🎓. Dabei wird [JS Doc](https://jsdoc.app/) Syntax verwendet.
-In der Template-Datei ist eine Kurzversion der Funktionen hinterlegt:
+Eine Liste aller vorhandenen Funktionen gibt es in der [ausführlichen Test-API Dokumentation](./docs/js-doc.md). In der Template-Datei ist eine Kurzversion der gängisten Funktionen hinterlegt:
 
 ```js
-// Neo Hilfsfunktionen:
-// TIPP: Man kann diese links am  Editor "einklappen" :)
+// Tipp: Man kann diese Referenzen am Editor "einklappen" :)
 const {
   sendMessage,
   sendReply,
@@ -136,7 +116,7 @@ const {
   //... -> Siehe Postman Template Import
 ```
 
-##### Beispiele mit Hilfsfunktionen
+#### Beispiele mit Hilfsfunktionen
 
 Hinweis: Die Werte in geschweifter Klammer sind _optionale Parameter_. Mehr dazu im nächsten Abschnitt.
 
@@ -146,9 +126,9 @@ Hinweis: Die Werte in geschweifter Klammer sind _optionale Parameter_. Mehr dazu
 isReprompt({ hintToCheck: 'Ein Hint' })
 ```
 
-2. **Contents**: Auf Merkmal in Adaptive Card oder Text testen:
+2. **Inhaltstypen (Contents)**: Auf Merkmal in einer AdaptiveCard oder Text testen:
 
-> Contents haben ein `shows` Präfix
+> Inhaltstypen haben ein `shows` Präfix
 
 ```js
 showsAdaptiveCard('Ein Text in einer Adaptive Card')
@@ -156,9 +136,9 @@ showsAdaptiveCard('Ein Text in einer Adaptive Card')
 showsText('Ein text in einer plain node')
 ```
 
-3. **Controls**: Auf Audio URL testen:
+3. **Bedienungselemente (Controls)**: Auf Audio URL testen:
 
-> Controls haben ein `triggers` Präfix
+> Bedienungselemente haben ein `triggers` Präfix
 
 ```js
 triggersAudio('www.audio.de/music.mp3')
@@ -185,7 +165,7 @@ isSticky({ dataToCheckFor: 'Ein text in einer Sticky' })
 isIntent('neo.hello', 0.79)
 ```
 
-##### Optionale Parameter
+#### Optionale Parameter
 
 Viele Funktionen haben optionale Parameter. Zum Beispiel kann mit `position` auf eine bestimmte Nachricht getestet werden, wenn wir mehrere Nachrichten erwarten.
 Die Liste der optionalen Parameter für die jeweilige Funktion, kann in den [JS Docs](https://jsdoc.app/) nachgelesen werden: [ausführliche Dokumentation](./docs/js-doc.md). Hier werden optionale Parameter mit eckigen Klammern dargestellt(`[]`). Beispiel von Doku und Anwendung im Test:
@@ -201,7 +181,7 @@ Wenn kein Pflichtparameter (Nicht in eckigen Klammern) existiert, wird bei leere
 
 ▶️💡: Die Syntax für die optionalen Parameter basiert auf simulierten named Parametern in Javascript. Hier ist eine gute Quelle dazu: [Named Parameters in Javascript](https://exploringjs.com/impatient-js/ch_callables.html#named-parameters)
 
-###### Eine bestimmte Nachricht auswählen
+##### Eine bestimmte Nachricht auswählen
 
 Werden mehrere Nachrichten bei einer Antwort verschickt, kann man auf eine bestimmte Nachricht testen. Der optionale Parameter `position` ermöglicht einen solchen Test. Dieser gibt an, welche Nachricht ausgewählt werden soll. Ein Beispiel, mit Erklärungen in den Kommentaren:
 
@@ -217,7 +197,7 @@ showsAdaptiveCard('Tests für den letzten Release', {
 showsAdaptiveCard('Alle Tests', { position: 3 })
 ```
 
-#### Spezielle Tests schreiben
+### Spezielle Tests schreiben
 
 Generell, kann man folgendermaßen jeden Eintrag im Particle Testen:
 
@@ -229,7 +209,7 @@ pm.test('[TEST-BESCHREIBUNG]', () => {
 
 Siehe die [Postman Dokumentation](https://learning.postman.com/docs/writing-scripts/test-scripts/). Die Assertions basieren auf dem [ChaiJS Framework](https://www.chaijs.com/api/bdd/).
 
-#### Das Particle
+### Das Particle
 
 Es ist nicht nötig den Particle zu verarbeiten. Wenn dies jedoch gewünscht ist, kann über den Rückgabewert darauf zugegriffen werden.
 
@@ -262,65 +242,4 @@ Siehe in `./lib/pre-request.js`:
       pm.sendRequest('[RAW_NEO_TESTING_LINK]', (error, response) => {
         if (error) {
 // ...
-```
-
-### Eigene Hilfsfunktionen hinzufügen
-
-Wenn weitere Hilfsfunktionen zum Testen benötigt werden, können vorhandene Funktionen erweitert werden. Dadurch können Testfunktionen um Sonderfälle erweitert und zur Vermeidung von Codeduplikaten in mehreren Workspaces verwendet werden.
-Beispiel: _Twilio_-Testfunktionen
-
-1. Funktion _lokal_ in Postman testen und auf Korrektheit überprüfen
-2. In diesem Repository einen [neuen Branch erstellen](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-and-deleting-branches-within-your-repository)
-3. Im neuen Branch, die `./lib/neo-test-functions.js` duplizieren und passend benennen
-4. In der duplizierten Datei, die Funktion ganz unten bei dem 'TODO` Kommentar einfügen:
-
-```js
-  }
-
-  // TODO ADD HERE CUSTOM FUNCTIONS
-
-  return {
-    // TODO NAME DER FUNKTION EINFÜGEN
-```
-
-5. Funktionsname im `return` Objekt einfügen
-6. Alles in Git [commiten und pushen](https://docs.github.com/en/github/managing-files-in-a-repository/adding-a-file-to-a-repository-using-the-command-line)
-7. Auf GitHub für den Branch ein [Pull Request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/requesting-a-pull-request-review) öffnen
-8. Jemand aus dem Neohelden Team [assignen](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/requesting-a-pull-request-review)
-
-Um in Postman auf die erstellte Version der Hilfsfunktion zugreifen zu können, siehe letzten Abschnitt: _Von Postman auf Versionierte Version zugreifen_. Neue Methoden müssen in der Registerkarte Test unter den Funktionsimporten angeben werden.
-
-## Nützliche links 🔗
-
-1. API:
-   - <https://docs.neohelden.com/neap-api-docs/ref>
-   - <https://docs.neohelden.com/de/neap-api-http>
-   - <https://docs.neohelden.com/de>
-2. Particle:
-   - Swagger Dokumentation: <https://cypher.neohelden.com/api/v1/docs/#/>
-   - <https://docs.neohelden.com/de/particle>
-3. Postman: <https://learning.postman.com/docs/writing-scripts/test-scripts/>
-4. ChaiJS: <https://www.chaijs.com/api/bdd/>
-
-## Contribute 😄 👨‍💻 👩‍💻 & Entwicklungshinweise
-
-1. JS Doc generieren: `npm run doc`
-2. Änderungen in Postman testen
-3. PR aufmachen & Neoheld zur Review assignen
-
-Ordner Struktur:
-
-```txt
-flow-testing-manual
-├── README.md
-├── docs
-│   ├── docs-neo-test-functions.js
-│   └── js-doc.md -> JSDOC
-├── lib
-│   ├── neo-test-functions.js -> DEFAULT TEST FUNCTIONS
-│   └── postman-templates
-│       ├── pre-request.js -> POSTMAN PRE-REQUEST TEMPLATE
-│       └── test-template.js -> POSTMAN TEST TEMPLATE
-├── package-lock.json
-└── package.json
 ```
