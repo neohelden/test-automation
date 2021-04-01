@@ -322,7 +322,7 @@ Check for audio recorder
 
 | Param | Type | Description |
 | --- | --- | --- |
-| target | <code>String</code> | expected to trigger camera(Optional) |
+| target | <code>String</code> | expected to trigger audio recorder(Optional) |
 | metadata | <code>String</code> | expected metadata for the audio recorder(Optional) |
 | [position] | <code>Number</code> | nth Element to check(Optional). Default: Search whether a content type with the attribute exists in all messages. |
 
