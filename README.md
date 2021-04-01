@@ -7,14 +7,12 @@ Dafür wird [Postman](https://neohelden.postman.co/) 👨‍🚀 genutzt.
 
 Um einen neuen Test zu erstellen, sind folgende Schritte notwendig:
 
-1. In der `Templates` Collection das `[PROECT-NAME]` Template duplizieren.
-2. In die `NEAP Testing` Collections verschieben
-3. `[PROECT-NAME]` und Ziel URL `https://[WORSPACE].neohelden.com/auth` abändern
-4. Wenn es kein `Anonymous` Workspace ist, müssen die Anmeldedaten hinzugefügt werden. Siehe dazu den nächsten Abschnitt _Authentifizierung_.
-5. Unter `Tests` in der Testvorlage die `TODO`'s ergänzen
-6. OPTIONAL: Falls abweichende Test Funktionen genutzt werden, den GitHub Link zu der Datei/Version im `Pre-Request`-Tab verändern:
-   - Siehe Pre-Request code: [pre-request.js](./lib/pre-request.js)
-   - Siehe Abschnitt _Test Funktionen hinzufügen_
+1. Auf Postman einen neuen [Request](https://learning.postman.com/docs/getting-started/creating-the-first-collection/#:~:text=To%20create%20a%20new%20request,enter%20a%20new%20request%20name.) erstellen
+2. Den Request Namen setzen und die Ziel URL auf `https://[WORSPACE].neohelden.com/auth` setzen. Wobei `[WORKSPACE]` das Ziel Workspace ist.
+3. Das Pre-Request Template(In `./lib/postman-templates/pre-request.js`) kopieren und in der _Pre-request Script_ Leiste des Postman Requests einfügen
+4. Das Test Template(In `./lib/postman-templates/test-template.js`) kopieren und in der _Tests_ Leiste des Postman Requests einfügen
+5. In der Testvorlage aus Schritt 4. die `TODO`'s mit den fehlenden Daten ergänzen
+6. Wenn es kein `Anonymous` Workspace ist, müssen die Anmeldedaten hinzugefügt werden. Siehe dazu den nächsten Abschnitt _Authentifizierung_.
 
 ## Authentifizierung und Umgang mit Zugangsdaten
 
