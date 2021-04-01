@@ -241,3 +241,37 @@ Siehe in `./lib/pre-request.js`:
         if (error) {
 // ...
 ```
+
+## Test Beispiel
+
+Im Folgenden ein beispielhafter Testdurchlauf:
+
+```js
+await sendAction('handshake')
+
+says('Guten Tag, was kann ich für dich tun?') 
+showsAdaptiveCard('Hier eine Auswahl unserer Möglichkeiten', {
+  position: 2,
+})
+showsAdaptiveCard('Weitere Optionen', { position: 3 })
+
+await sendMessage('Ich möchte ein Zimmer buchen')
+
+showsText('Welche Stadt?')
+// Nutze `sendReply` um den Kontext der Konversation zu behalten
+await sendReply('Karlsruhe')
+
+showsText('Welches Datum?')
+await sendReply('1. April 2020')
+
+showsText('Vielen Dank für die Buchung.')
+
+// Command der eine Karte anzeigt
+await sendMessage('/map')
+isContentType('map')
+
+await sendMessage('Zeige mir ein Video von den Neohelden' )
+showsMedia('https://youtu.be/I2waThpOfrc')
+
+return 'Done'
+```
