@@ -50,10 +50,13 @@ Useful f.ex for actions like Button clicks on adaptive cards</p>
 <dt><a href="#showsText">showsText(text, [position])</a></dt>
 <dd><p>Check Plain node for expected text</p>
 </dd>
-<dt><a href="#triggersAudio">triggersAudio(url, [position])</a></dt>
-<dd><p>Check for expected url to trigger audio from</p>
+<dt><a href="#triggersStickyClear">triggersStickyClear()</a></dt>
+<dd><p>Check whether sticky was cleared</p>
 </dd>
-<dt><a href="#triggersCamera">triggersCamera(target, mode, [position])</a></dt>
+<dt><a href="#triggersAudioRecorder">triggersAudioRecorder(target, metadata, [position])</a></dt>
+<dd><p>Check for audio recorder</p>
+</dd>
+<dt><a href="#triggersCamera">triggersCamera([target], [mode], [position])</a></dt>
 <dd><p>Check for camera triggering parameters</p>
 </dd>
 <dt><a href="#triggersSuggestion">triggersSuggestion([label], [value], [style])</a></dt>
@@ -304,29 +307,36 @@ Check Plain node for expected text
 | text | <code>String</code> | to expect |
 | [position] | <code>Number</code> | nth Element to check(Optional). Default: Search whether a content type with the attribute exists in all messages. |
 
-<a name="triggersAudio"></a>
+<a name="triggersStickyClear"></a>
 
-## triggersAudio(url, [position])
-Check for expected url to trigger audio from
+## triggersStickyClear()
+Check whether sticky was cleared
+
+**Kind**: global function  
+<a name="triggersAudioRecorder"></a>
+
+## triggersAudioRecorder(target, metadata, [position])
+Check for audio recorder
 
 **Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| url | <code>String</code> | to trigger the audio from |
+| target | <code>String</code> | expected to trigger audio recorder(Optional) |
+| metadata | <code>String</code> | expected metadata for the audio recorder(Optional) |
 | [position] | <code>Number</code> | nth Element to check(Optional). Default: Search whether a content type with the attribute exists in all messages. |
 
 <a name="triggersCamera"></a>
 
-## triggersCamera(target, mode, [position])
+## triggersCamera([target], [mode], [position])
 Check for camera triggering parameters
 
 **Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| target | <code>String</code> | expected to trigger camera |
-| mode | <code>String</code> | expected to use for uploading |
+| [target] | <code>String</code> | expected to trigger camera(Optional) |
+| [mode] | <code>String</code> | expected to use for uploading(Optional) |
 | [position] | <code>Number</code> | nth Element to check(Optional). Default: Search whether a content type with the attribute exists in all messages. |
 
 <a name="triggersSuggestion"></a>

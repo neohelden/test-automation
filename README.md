@@ -3,18 +3,56 @@
 Mithilfe der [NEAP-API](https://docs.neohelden.com/neap-api-docs/ref), können Testfälle für bestehende Flows geschrieben und ausgeführt werden.  
 Dafür wird [Postman](https://neohelden.postman.co/) 👨‍🚀 genutzt.
 
-## Test auf Postman erstellen
+## Einrichtung in Postman
 
 Um einen neuen Test zu erstellen, sind folgende Schritte notwendig:
 
-1. In der `Templates` Collection das `[PROECT-NAME]` Template duplizieren.
-2. In die `NEAP Testing` Collections verschieben
-3. `[PROECT-NAME]` und Ziel URL `https://[WORSPACE].neohelden.com/auth` abändern
-4. Wenn es kein `Anonymous` Workspace ist, müssen die Anmeldedaten hinzugefügt werden. Siehe dazu den nächsten Abschnitt _Authentifizierung_.
-5. Unter `Tests` in der Testvorlage die `TODO`'s ergänzen
-6. OPTIONAL: Falls abweichende Test Funktionen genutzt werden, den GitHub Link zu der Datei/Version im `Pre-Request`-Tab verändern:
-   - Siehe Pre-Request code: [pre-request.js](./lib/pre-request.js)
-   - Siehe Abschnitt _Test Funktionen hinzufügen_
+1. Auf Postman einen neuen [Request](https://learning.postman.com/docs/getting-started/creating-the-first-collection/#:~:text=To%20create%20a%20new%20request,enter%20a%20new%20request%20name.) erstellen
+2. Den Request Namen setzen und die Ziel URL auf `https://[WORSPACE].neohelden.com/auth` setzen. Wobei `[WORKSPACE]` das Ziel Workspace ist.
+3. Das Pre-Request Template(In `./lib/postman-templates/pre-request.js`) kopieren und in der _Pre-request Script_ Leiste des Postman Requests einfügen
+4. Das Test Template(In `./lib/postman-templates/test-template.js`) kopieren und in der _Tests_ Leiste des Postman Requests einfügen
+5. In der Testvorlage aus Schritt 4. die `TODO`'s mit den fehlenden Daten ergänzen
+6. Wenn es kein `Anonymous` Workspace ist, müssen die Anmeldedaten hinzugefügt werden. Siehe dazu den nächsten Abschnitt _Authentifizierung_.
+
+## Schnelleinstieg (Beispiel)
+
+```js
+// Wir beginnen den Test mit einem "Handshake"
+//
+// Wir benutzen "await", um auf die Antwort von Neo zu warten
+await sendAction('handshake')
+
+// Neo antwortet nun mit einem gesprochenen Text ("says")
+// und zeigt mehrere AdaptiveCard-Inhalte an
+//
+// Die Antwort überprüfen wir mithilfe der Hilfsfunktionen
+says('Guten Tag, was kann ich für dich tun?') 
+showsAdaptiveCard('Hier eine Auswahl unserer Möglichkeiten', {
+  position: 2, // hier prüfen wir bewusst, die 2. Position der Antwort
+})
+showsAdaptiveCard('Weitere Optionen', { position: 3 })
+
+// Nun senden wir eine normale Nachricht
+// Neo antwortet mit einer Text-Nachricht
+await sendMessage('Ich möchte ein Zimmer buchen')
+showsText('Welche Stadt?')
+
+// Wir nutzen `sendReply`, um den Kontext der Konversation zu behalten
+await sendReply('Karlsruhe')
+showsText('Welches Datum?')
+
+await sendReply('1. April 2020')
+showsText('Vielen Dank für die Buchung.')
+
+// Wir können mithilfe von sendMessage auch Commands auslösen
+await sendMessage('/map')
+isContentType('map')
+
+await sendMessage('Zeige mir ein Video von den Neohelden' )
+showsMedia('https://youtu.be/I2waThpOfrc')
+
+return 'Done'
+```
 
 ## Authentifizierung und Umgang mit Zugangsdaten
 
@@ -141,7 +179,7 @@ showsText('Ein text in einer plain node')
 > Bedienungselemente haben ein `triggers` Präfix
 
 ```js
-triggersAudio('www.audio.de/music.mp3')
+triggersSuggestion({ label: 'Suggestion label', value: 'Suggestion value' })
 ```
 
 4. **Directives**: Auf E-mail erstellen testen:
@@ -243,3 +281,4 @@ Siehe in `./lib/pre-request.js`:
         if (error) {
 // ...
 ```
+
