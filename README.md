@@ -8,7 +8,7 @@ Dafür wird [Postman](https://neohelden.postman.co/) 👨‍🚀 genutzt.
 Um einen neuen Test zu erstellen, sind folgende Schritte notwendig:
 
 1. Auf Postman einen neuen [Request](https://learning.postman.com/docs/getting-started/creating-the-first-collection/#:~:text=To%20create%20a%20new%20request,enter%20a%20new%20request%20name.) erstellen
-2. Den Request Namen setzen und die Ziel URL auf `https://[WORSPACE].neohelden.com/auth` setzen. Wobei `[WORKSPACE]` das Ziel Workspace ist.
+2. Den Request Namen setzen, die HTTP Methode auf POST setzen und die Ziel URL auf `https://[WORSPACE].neohelden.com/auth` setzen. Wobei `[WORKSPACE]` das Ziel Workspace ist.
 3. Das Pre-Request Template(In `./lib/postman-templates/pre-request.js`) kopieren und in der _Pre-request Script_ Leiste des Postman Requests einfügen
 4. Das Test Template(In `./lib/postman-templates/test-template.js`) kopieren und in der _Tests_ Leiste des Postman Requests einfügen
 5. In der Testvorlage aus Schritt 4. die `TODO`'s mit den fehlenden Daten ergänzen
