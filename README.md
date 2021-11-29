@@ -187,7 +187,7 @@ triggersSuggestion({ label: 'Suggestion label', value: 'Suggestion value' })
 > Directives haben ein `does` Präfix
 
 ```js
-doesComposeAnEmail({ recipients: 'daniel@neohelden.com', subject: 'Flow test Docs' })
+doesComposeAnEmail({ recipients: 'hello@neohelden.com', subject: 'Flow test Docs' })
 ```
 
 5. **Sticky** testen:
