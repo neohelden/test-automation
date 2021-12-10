@@ -8,11 +8,11 @@ Dafür wird [Postman](https://neohelden.postman.co/) 👨‍🚀 genutzt.
 Um einen neuen Test zu erstellen, sind folgende Schritte notwendig:
 
 1. Auf Postman einen neuen [Request](https://learning.postman.com/docs/getting-started/creating-the-first-collection/#:~:text=To%20create%20a%20new%20request,enter%20a%20new%20request%20name.) erstellen
-2. Den Request Namen setzen, die HTTP Methode auf POST setzen und die Ziel URL auf `https://[WORSPACE].neohelden.com/auth` setzen. Wobei `[WORKSPACE]` das Ziel Workspace ist.
+2. Den Request Namen setzen, die HTTP Methode auf POST setzen und die Ziel URL auf `https://[WORKSPACE].neohelden.com/auth` setzen. Wobei `[WORKSPACE]` das Ziel Workspace ist.
 3. Das Pre-Request Template(In `./lib/postman-templates/pre-request.js`) kopieren und in der _Pre-request Script_ Leiste des Postman Requests einfügen
 4. Das Test Template(In `./lib/postman-templates/test-template.js`) kopieren und in der _Tests_ Leiste des Postman Requests einfügen
 5. In der Testvorlage aus Schritt 4. die `TODO`'s mit den fehlenden Daten ergänzen
-6. Wenn es kein `Anonymous` Workspace ist, müssen die Anmeldedaten hinzugefügt werden. Siehe dazu den nächsten Abschnitt _Authentifizierung_.
+6. Wenn ein Login (Nutzer-Authentifizierung) notwendig ist, müssen die Anmeldedaten im Body als JSON hinzugefügt werden. Siehe dazu den nächsten Abschnitt _Authentifizierung_.
 
 ## Schnelleinstieg (Beispiel)
 
@@ -45,8 +45,8 @@ await sendReply('1. April 2020')
 showsText('Vielen Dank für die Buchung.')
 
 // Wir können mithilfe von sendMessage auch Commands auslösen
-await sendMessage('/map')
-isContentType('map')
+await sendMessage('/image')
+isContentType('image')
 
 await sendMessage('Zeige mir ein Video von den Neohelden' )
 showsMedia('https://youtu.be/I2waThpOfrc')
@@ -56,9 +56,9 @@ return 'Done'
 
 ## Authentifizierung und Umgang mit Zugangsdaten
 
-Wenn es sich nicht um ein Workspace mit `anonymous`-Authentifizierung handelt, müssen die folgenden Schritte zur Authentifizierung durchgeführt werden:
+Bei einem Workspace mit `anonymous`-Authentifizierung kann dieser Abschnitt übersprungen werden. Falls aber ein Login für den Assistenten genutzt wird, müssen die folgenden Schritte zur Authentifizierung durchgeführt werden:
 
-1. Erstelle einen neuen App-User für den Workspace über die Benutzerverwaltung
+1. Erstelle einen neuen App-User für den Workspace über die Benutzerverwaltung und lege ein Passwort fest
 2. Im _Body_-Tab der Postman-Anfrage den `Username` des App-Users und `Password` einfügen:
 
 ```json
